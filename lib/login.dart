@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'homepage.dart';
+
 class Login extends StatefulWidget {
   @override
   LoginState createState() => LoginState();
@@ -88,7 +90,10 @@ class LoginState extends State<Login> {
             width: 250,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)), // Borde redondo
             child: ElevatedButton( // Botón
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
               child: Text(
                 'Iniciar sesion',
                 style: TextStyle(color: Colors.white, fontSize: 25),
