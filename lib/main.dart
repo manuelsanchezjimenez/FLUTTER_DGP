@@ -1,5 +1,9 @@
-import 'package:app_dgp/screens/communication_screen.dart';
+import 'package:app_dgp/screens/communication_table.dart';
 import 'package:flutter/material.dart';
+import'package:app_dgp/components/textContainer.dart';
+import 'package:app_dgp/components/textInputRound.dart';
+
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,6 +12,23 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Login(),
+        title: "Nombre aplicación",
+        theme: ThemeData(
+            primaryColor: Colors.blueAccent,
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.blue,
+            ))
+    );
+  }
+}
+
+
+  /*
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -53,12 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+
     });
   }
 
@@ -123,3 +139,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/
