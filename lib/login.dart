@@ -1,3 +1,4 @@
+import 'package:app_dgp/user.dart';
 import 'package:flutter/material.dart';
 
 import 'homepage.dart';
@@ -8,25 +9,10 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  /*DummyDb _db = DBInstance.db;
-  late String user, passwd;
+
+  User user = User("","");
   TextEditingController user_ctrl = new TextEditingController();
   TextEditingController passwd_ctrl = new TextEditingController();
-
-  void msgSnack(String msg){
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(msg),
-    ));
-  }*/
-
-/*  void errorSnack(String err){
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(err),
-      backgroundColor: Colors.red,
-    ));
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +38,17 @@ class LoginState extends State<Login> {
             ),
           ),
 
-          const Padding( // Campo de texto para el nombre de usuario
+          Padding( // Campo de texto para el nombre de usuario
             padding:
             EdgeInsets.only(left: 30.0, right: 15.0, top: 70, bottom: 40), // Márgenes
             child: SizedBox(
               width: 600, // Tamaño de la caja
               child: TextField(
+                key: Key("usuario"),
+                controller: user_ctrl,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
+                  hintText: '',
                   labelText: 'Usuario', // Para que ponga "Usuario" dentro antes de rellenarlo
                   icon: Icon(Icons.person), // Icono de la persona a la izquierda
                   focusedBorder: OutlineInputBorder(), // El borde cambia de color al clickar encima
