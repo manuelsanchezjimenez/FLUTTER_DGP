@@ -1,7 +1,8 @@
 import 'package:app_dgp/user.dart';
 import 'package:flutter/material.dart';
-
+import 'constants.dart';
 import 'homepage.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   @override
@@ -9,10 +10,8 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-
-  User user = User("","");
-  TextEditingController user_ctrl = new TextEditingController();
-  TextEditingController passwd_ctrl = new TextEditingController();
+  User user = User("", "");
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +22,7 @@ class LoginState extends State<Login> {
           "Nombre App",
           style: TextStyle(fontFamily: 'Sifonn'),
         ),
+        backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -37,51 +37,115 @@ class LoginState extends State<Login> {
                   child: Image.asset('assets/icon.PNG')),
             ),
           ),
-
-          Padding( // Campo de texto para el nombre de usuario
-            padding:
-            EdgeInsets.only(left: 30.0, right: 15.0, top: 70, bottom: 40), // Márgenes
-            child: SizedBox(
-              width: 600, // Tamaño de la caja
-              child: TextField(
-                key: Key("usuario"),
-                controller: user_ctrl,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '',
-                  labelText: 'Usuario', // Para que ponga "Usuario" dentro antes de rellenarlo
-                  icon: Icon(Icons.person), // Icono de la persona a la izquierda
-                  focusedBorder: OutlineInputBorder(), // El borde cambia de color al clickar encima
-                ),
-                style: TextStyle(fontSize: 20), // Tamaño de la letra
-              ),
-            ),
-          ),
-
-          const Padding( // Campo de texto para la contraseña
-            padding:
-                EdgeInsets.only(left: 30.0, right: 15.0, top: 5, bottom: 70), // Márgenes
-            child: SizedBox(
-              width: 600, // Tamaño de la caja
-              child: TextField(
-                obscureText: true, // Conforme se va escribiendo se ponen puntitos
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), // El borde cambia de color al clickar encima
-                    labelText: 'Contraseña', // Para que ponga "Usuario" dentro antes de rellenarlo
-                    icon: Icon(Icons.lock_outline) // Icono del candado a la izquierda
-                ),
-                style: TextStyle(fontSize: 20), // Tamaño de la letra
-              ),
-            ),
-          ),
-          Container( // Botón de inicio de sessión
+          Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    // Campo de texto para el nombre de usuario
+                    padding: EdgeInsets.only(
+                        left: 30.0,
+                        right: 15.0,
+                        top: 70,
+                        bottom: 40), // Márgenes
+                    child: SizedBox(
+                      width: 600, // Tamaño de la caja
+                      child: TextFormField(
+                        controller: TextEditingController(text: user.nombre),
+                        onChanged: (value) {
+                          user.nombre = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return '¡Introduce algo!';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            hintText: 'Nombre',
+                            icon: Icon(Icons.person),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.blue)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.blue)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.red)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.red))),
+                        style: TextStyle(fontSize: 20), // Tamaño de la letra
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    // Campo de texto para la contraseña
+                    padding: EdgeInsets.only(
+                        left: 30.0,
+                        right: 15.0,
+                        top: 5,
+                        bottom: 70), // Márgenes
+                    child: SizedBox(
+                      width: 600, // Tamaño de la caja
+                      child: TextFormField(
+                        controller: TextEditingController(text: user.password),
+                        onChanged: (value) {
+                          user.nombre = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return '¡Introduce algo!';
+                          }
+                          return null;
+                        },
+                        obscureText:
+                            true, // Conforme se va escribiendo se ponen puntitos
+                        decoration: InputDecoration(
+                            border:
+                                OutlineInputBorder(), // El borde cambia de color al clickar encima
+                            labelText:
+                                'Contraseña', // Para que ponga "Contraseña" dentro antes de rellenarlo
+                            hintText: 'Contraseña',
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.blue)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.blue)),
+                            errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.red)),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Colors.red)),
+                            icon: Icon(Icons
+                                .lock_outline) // Icono del candado a la izquierda
+                            ),
+                        style: TextStyle(fontSize: 20), // Tamaño de la letra
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+          Container(
+            // Botón de inicio de sesión
             height: 90,
             width: 250,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)), // Borde redondo
-            child: ElevatedButton( // Botón
+            child: ElevatedButton(
+              // Botón
+              style: ElevatedButton.styleFrom(
+                  primary: kPrimaryColor,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius:
+                        new BorderRadius.circular(30.0), // Borde redondo
+                  )),
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => HomePage()));
+                if (_formKey.currentState!.validate()) {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                }
               },
               child: Text(
                 'Iniciar sesion',
