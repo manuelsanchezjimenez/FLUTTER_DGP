@@ -47,8 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 */
+import 'package:app_dgp/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -75,11 +78,9 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 30, bottom: 0), // Márgenes
+                          padding:
+                              EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
                           child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
                             child: SizedBox(
                                 width: 240,
                                 height: 240,
@@ -94,36 +95,96 @@ class _HomePageState extends State<HomePage> {
                               horizontal: 0, vertical: 0),
                           child: Container(
                             decoration: const BoxDecoration(
-                              color: Colors.lightBlue,
+                              color: kPrimaryLightColor,
                             ),
                             child: const SizedBox(
                                 width: 235,
-                                height: 100,
+                                height: 90,
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 10),
-                                  child: Center(
-                                    child: Text(
-                                      'Nombre nombre',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white, fontSize: 25),
-                                    ),
-                                  )
-
-                                )),
+                                    child: Center(
+                                      child: Text(
+                                        'Perico Palotes',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ))),
                           ),
                         )
                       ],
                     ),
-                  ),
+                  ), // Cuadro superior-izquierdo: foto de perfil y nombre
+                  const Divider(
+                    color: Colors.white,
+                    height: 20,
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 0,
+                  ), // Divisor entre foto-nombre y botones perfil-sesion
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.greenAccent,
-                      ),
+                    child: Column(
+                      children: [
+                        Container(
+                            // Botón de perfil
+                            height: 90,
+                            width: 250,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 0, bottom: 0),
+                              child: ElevatedButton(
+                                // Botón
+                                style: ElevatedButton.styleFrom(
+                                    primary: kPrimaryColor,
+                                    shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(
+                                          30.0), // Borde redondo
+                                    )),
+                                onPressed: () {},
+                                child: Text(
+                                  'Perfil',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 25),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                          // Botón de cierre de sesión
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 150,
+                              bottom: 0), // Márgenes
+                          child: Container(
+                            height: 90,
+                            width: 250,
+                            child: ElevatedButton(
+                              // Botón
+                              style: ElevatedButton.styleFrom(
+                                  primary: kPrimaryColor,
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(
+                                        30.0), // Borde redondo
+                                  )),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => Login()));
+                              },
+                              child: Text(
+                                'Cerrar sesión',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 25),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ), // Cuadro inferior-izquierdo: botones perfil y cerrar sesión
                 ],
               ),
             ),
@@ -131,10 +192,57 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: Colors.white,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                          height: 200,
+                          width: 900,
+                          child: ElevatedButton(
+                            // Botón
+                            style: ElevatedButton.styleFrom(
+                                primary: kPrimaryLightColor),
+                            onPressed: () {},
+
+                            child: Text(
+                              'Mis tareas',
+                              style:
+                                  TextStyle(color: kPrimaryColor, fontSize: 40),
+                            ),
+                          )),
+                    ),
+                    const Divider(
+                      color: Colors.white,
+                      height: 70,
+                      thickness: 1,
+                      indent: 0,
+                      endIndent: 0,
+                    ),
+                    Expanded(
+                      child: Container(
+                          height: 200,
+                          width: 900,
+                          child: ElevatedButton(
+                            // Botón
+                            style: ElevatedButton.styleFrom(
+                              primary: kPrimaryLightColor,
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              'Mis actividades',
+                              style:
+                                  TextStyle(color: kPrimaryColor, fontSize: 40),
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ), // Panel principal con botones de tareas y actividades
         ],
       ),
     );
@@ -143,11 +251,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          title: Text(
-        "Inicio",
-        style: TextStyle(fontFamily: 'Sifonn'),
-      )),
+        title: Text("Página principal", style: TextStyle(fontFamily: 'Sifonn')),
+        backgroundColor: kPrimaryColor,
+        automaticallyImplyLeading: false,
+      ),
       body: crearBody(context),
     );
   }
