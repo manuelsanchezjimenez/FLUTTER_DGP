@@ -3,8 +3,8 @@ import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../login.dart';
 import '../mongodb.dart';
-import 'profile_screen.dart';
 
 class UsersScreen extends StatefulWidget{
   UsersScreen();
@@ -13,7 +13,6 @@ class UsersScreen extends StatefulWidget{
 }
 
 class _UsersScreen extends State<UsersScreen> {
-
   AppBar buildAppBar(){
     return AppBar(
       backgroundColor: kPrimaryColor,
@@ -33,6 +32,7 @@ class _UsersScreen extends State<UsersScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       appBar: buildAppBar(),
       body: Center(
         child:Column(
@@ -40,14 +40,9 @@ class _UsersScreen extends State<UsersScreen> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(vertical:30),
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+              child: Container(
                     width: size.width*0.9,
                     child: buildGridView(kPrimaryColor),
-                  )
-                ],
               ),
             ),
             Container(
@@ -58,7 +53,7 @@ class _UsersScreen extends State<UsersScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child:  FloatingActionButton(
                       onPressed: () {
-                        Navigator.of(context).popUntil(ModalRoute.withName('/menu'));
+                        /*Navigator.of(context).popUntil(ModalRoute.withName('/menu'));
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -66,7 +61,7 @@ class _UsersScreen extends State<UsersScreen> {
                               return ProfileScreen();
                             },
                           ),
-                        );
+                        );*/
                       },
                       tooltip: 'Siguiente',
                       backgroundColor: kPrimaryColor,
@@ -85,6 +80,8 @@ class _UsersScreen extends State<UsersScreen> {
   }
 
   Widget buildGridView(Color color){
+    int display_cont = 8;
+    int total = 0;
     Size size = MediaQuery.of(context).size;
     return Container(
       child: FutureBuilder(
@@ -96,6 +93,11 @@ class _UsersScreen extends State<UsersScreen> {
             );
           }else{
             if(snapshot.hasData){
+              if(snapshot.data.length < display_cont){
+                display_cont = snapshot.data.length;
+              }else{
+
+              }
               return Center(
                 child: GridView.builder(
                     shrinkWrap: true,
@@ -105,7 +107,7 @@ class _UsersScreen extends State<UsersScreen> {
                       mainAxisSpacing: 40,
                       //childAspectRatio: 3/3.5,
                     ),
-                    itemCount: snapshot.data.length,
+                    itemCount:display_cont,
                     itemBuilder: (context, index){
                         return displayData(
                             UserDbModel.fromJson(snapshot.data[index]),
@@ -147,7 +149,13 @@ class _UsersScreen extends State<UsersScreen> {
         Expanded(
             child: ElevatedButton(
               style: style,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login(user:data)),
+                );
+                //print(data.contra.toString());
+              },
               child: Text('ALUMNO '
             )
            ),

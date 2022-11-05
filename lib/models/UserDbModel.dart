@@ -8,7 +8,8 @@ class UserDbModel{
   String correo;
   String dni;
   int clase;
-  String profesor;
+  late String profesor;
+  late String contra;
 
   UserDbModel({
         required this.id,
@@ -18,8 +19,10 @@ class UserDbModel{
         required this.correo,
         required this.dni,
         required this.clase,
-        required this.profesor,
+        required this.contra
+        //required this.profesor,
     });
+
 
   factory UserDbModel.fromJson(Map<String,dynamic> json) => UserDbModel(
     id: json["_id"],
@@ -29,7 +32,8 @@ class UserDbModel{
     correo: json['correo'],
     dni: json['dni'],
     clase: json['clase'],
-    profesor: json['profesor']
+    contra: json['contra']
+    //profesor: json['profesor']
   );
 
   Map<String,dynamic>toJson(Map<String,dynamic> json) =>
@@ -41,6 +45,15 @@ class UserDbModel{
         "correo": correo,
         "dni": dni,
         "clase": clase,
-        "profesor": profesor
+        "contra":contra
+        //"profesor": profesor
       };
+
+  void clear(){
+    id = ObjectId();
+    this.contra = this.dni = this.correo = '';
+    this.nombre = this.usuario = this.profesor =   '';
+    this.tipo = this.clase = 0;
+
+  }
 }

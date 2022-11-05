@@ -1,16 +1,19 @@
+import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:app_dgp/user.dart';
+import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'homepage.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
+  UserDbModel user;
+  Login({required this.user});
   @override
   LoginState createState() => LoginState();
 }
 
 class LoginState extends State<Login> {
-  User user = User("", "");
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -19,7 +22,7 @@ class LoginState extends State<Login> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Nombre App",
+          "Colegio de Educación Especial San Rafael",
           style: TextStyle(fontFamily: 'Sifonn'),
         ),
         backgroundColor: kPrimaryColor,
@@ -51,9 +54,9 @@ class LoginState extends State<Login> {
                     child: SizedBox(
                       width: 600, // Tamaño de la caja
                       child: TextFormField(
-                        controller: TextEditingController(text: user.nombre),
+                        controller: TextEditingController(text: widget.user.correo),
                         onChanged: (value) {
-                          user.nombre = value;
+                         // widget.user.nombre = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -90,9 +93,9 @@ class LoginState extends State<Login> {
                     child: SizedBox(
                       width: 600, // Tamaño de la caja
                       child: TextFormField(
-                        controller: TextEditingController(text: user.password),
+                        controller: TextEditingController(text: ''),
                         onChanged: (value) {
-                          user.nombre = value;
+                          //widget.user.contra = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -143,8 +146,13 @@ class LoginState extends State<Login> {
                   )),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  var hashed = hash(_formKey.currentState.toString());
+                  print(hashed);
+                  final bool checkPassword = BCrypt.checkpw(widget.user.contra, hashed);
+                  print("BD: "+widget.user.contra);
+                 // print(encoded);
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                      context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
                 }
               },
               child: Text(
@@ -156,5 +164,11 @@ class LoginState extends State<Login> {
         ],
       )),
     );
+  }
+
+  String hash(String pwd){
+    var salt = BCrypt.gensalt(prefix: "\$2b",logRounds: 4);
+    var encoded = BCrypt.hashpw(pwd,salt);
+    return encoded.toString();
   }
 }

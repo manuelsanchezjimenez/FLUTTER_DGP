@@ -48,18 +48,28 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 */
 import 'package:app_dgp/login.dart';
+import 'package:app_dgp/mongodb.dart';
+import 'package:app_dgp/screens/profile_screen.dart';
+import 'package:app_dgp/screens/users_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'models/UserDbModel.dart';
 
 class HomePage extends StatefulWidget {
+  UserDbModel user;
+  HomePage({required this.user});
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   get width => null;
+
+  void wipeData(){
+    widget.user.clear();
+  }
 
   Widget crearBody(BuildContext context) {
     return Container(
@@ -142,7 +152,10 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: new BorderRadius.circular(
                                           30.0), // Borde redondo
                                     )),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (_) => ProfileScreen(user:widget.user)));
+                                },
                                 child: Text(
                                   'Perfil',
                                   style: TextStyle(
@@ -169,10 +182,8 @@ class _HomePageState extends State<HomePage> {
                                         30.0), // Borde redondo
                                   )),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => Login()));
+                                wipeData();
+                                Navigator.of(context).popUntil((route) => route.isFirst);
                               },
                               child: Text(
                                 'Cerrar sesión',

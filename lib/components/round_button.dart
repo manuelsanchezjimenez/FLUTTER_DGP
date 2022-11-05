@@ -7,10 +7,11 @@ class RoundButton extends StatelessWidget{
   final IconData icon;
   final VoidCallback onPressed;
   final Color color, textColor;
+  late Image picto;
   final double width;
   final double height;
 
-  const RoundButton({
+  RoundButton({
     Key? key,
     required this.text,
     required this.icon,
@@ -18,7 +19,8 @@ class RoundButton extends StatelessWidget{
     this.color = kPrimaryColor,
     this.textColor = kPrimaryWhite,
     required this.width,
-    required this.height
+    required this.height,
+    //required this.picto
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class RoundButton extends StatelessWidget{
             color: color,
             onPressed: onPressed,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                   Text(
                     text,
@@ -46,12 +48,9 @@ class RoundButton extends StatelessWidget{
                     ),
                   ),
                   Transform.scale(
-                    scale: 2.5,
-                    child: Icon(
-                      icon,
-                      color: kPrimaryWhite,
-                    ),
-                  ),
+                     scale: 1.2,
+                     child:  Image.asset('assets/grafica.png'),
+                   )
               ]
             )
           ),

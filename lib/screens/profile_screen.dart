@@ -1,19 +1,22 @@
 import 'dart:ui';
 import 'package:app_dgp/components/round_button.dart';
 import 'package:app_dgp/constants.dart';
+import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
 class ProfileScreen extends StatefulWidget{
-  ProfileScreen();
+  UserDbModel user;
+  ProfileScreen({required this.user});
 
   @override
   _ProfileScreen createState() => _ProfileScreen();
 }
 
 class _ProfileScreen extends State<ProfileScreen> {
-
+List<String> dataName=['Nombre completo','Correo', 'D.N.I.', 'Clase'];
+List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
   AppBar buildAppBar(){
     return AppBar(
       backgroundColor: kPrimaryColor,
@@ -26,7 +29,9 @@ class _ProfileScreen extends State<ProfileScreen> {
               Icons.arrow_back,
               color: kPrimaryWhite,
             ),
-            onPressed: () {  },
+            onPressed: () {
+              Navigator.pop(context);
+            },
           )
       ),
       title: Text(
@@ -89,10 +94,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                                   //color: Colors.blueGrey,
                                   child: Column(
                                     children: [
-                                      textData("Nombre"),
-                                      textData("Apellidos"),
-                                      textData("Correo"),
-                                      textData("Fecha de nacimiento"),
+                                      buildTextDataCategory(dataName,icons)
                                     ],
                                   ),
                                 ),
@@ -104,10 +106,10 @@ class _ProfileScreen extends State<ProfileScreen> {
                                   //color: Colors.grey,
                                   child: Column(
                                     children: [
-                                      buildTextFormField(),
-                                      buildTextFormField(),
-                                      buildTextFormField(),
-                                      buildTextFormField()
+                                     buildTextFormField(widget.user.nombre),
+                                      buildTextFormField(widget.user.correo),
+                                      buildTextFormField(widget.user.dni),
+                                      buildTextFormField(widget.user.clase.toString())
                                     ],
                                   ),
                                 ),
@@ -120,10 +122,10 @@ class _ProfileScreen extends State<ProfileScreen> {
                 ),
                 RoundButton(
                     text: "Ver gráfica",
-                    width: size.width*0.25,
-                    height: size.height*0.15,
+                    width: size.width*0.35,
+                    height: size.height*0.25,
                     icon: Icons.graphic_eq,
-                    onPressed: (){})
+                    onPressed: (){print(dataName.length);})
               ],
             ),
           )
@@ -131,24 +133,31 @@ class _ProfileScreen extends State<ProfileScreen> {
     );
   }
 
-  Widget buildTextFormField(/*String data*/){
+  Widget buildTextFormField(String data){
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Container(
             height: size.height*0.08,
-            alignment: Alignment.center,
+            alignment: Alignment.bottomLeft,
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(width: 2, color:Colors.blueGrey),
               ),
             ),
+        child: Text(
+            data,
+            style: GoogleFonts.arimo(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey
+            )),
           )
     );
   }
-  Widget textData(String nameCategory){
+  Widget buildTextDataCategory(List<String> nameCategory, List<IconData> icons){
     Size size = MediaQuery.of(context).size;
-    return Padding(
+   /* return Padding(
         padding: EdgeInsets.symmetric(horizontal:size.width*0.02),
         child: Container(
           height: size.height*0.08,
@@ -161,6 +170,43 @@ class _ProfileScreen extends State<ProfileScreen> {
           )
         ) ,
       ),
+    );*/
+    return ListView.builder(
+        shrinkWrap: true,
+          itemCount: nameCategory.length,
+          itemBuilder: (BuildContext context, int index){
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal:size.width*0.02),
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: size.height*0.08,
+                    alignment: Alignment.bottomRight,
+                    child: Transform.scale(
+                      scale: 1.5,
+                      child: Icon(
+                          icons[index],
+                          color: Colors.blueGrey,
+                      ),
+                    )
+                  ),
+
+                  Container(
+                    height: size.height*0.08,
+                    alignment: Alignment.bottomRight,
+                    child: Text('${nameCategory[index]}',
+                        style: GoogleFonts.arimo(
+                            fontSize: 22,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black
+                        )
+                    ),
+                  )
+                ],
+              )
+              );
+          }
     );
   }
 }

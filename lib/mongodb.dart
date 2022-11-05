@@ -1,23 +1,27 @@
 import 'dart:developer';
-import 'package:mongo_dart/mongo_dart.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'constants.dart';
 
 class MongoDatabase{
   static var db, collection;
 
   static connect() async {
-    print("Me voy a conectar");
-    db = await Db.create(MONGO_URL);
+    db = await mongo.Db.create(MONGO_URL);
     await db.open();
     inspect(db);
     var status = db.serverStatus();
-    print(status);
-    print("Ya me he conectado");
     collection = db.collection(COLLECTION_NAME);
+  }
+  static disconnect() async {
+    await db.close();
   }
 
   static Future<List<Map<String,dynamic>>> getData() async{
     final data = await collection.find().toList();
     return data;
+  }
+ static Future<Map<String,dynamic>>getContra(String user) async{
+    var contra = await collection.findOne(mongo.where.eq('nombre',user));
+    return contra;
   }
 }
