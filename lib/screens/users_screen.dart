@@ -13,6 +13,9 @@ class UsersScreen extends StatefulWidget{
 }
 
 class _UsersScreen extends State<UsersScreen> {
+  int cont = 0;
+  final int limit_grid = 8;
+
   AppBar buildAppBar(){
     return AppBar(
       backgroundColor: kPrimaryColor,
@@ -30,7 +33,9 @@ class _UsersScreen extends State<UsersScreen> {
   }
     @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       appBar: buildAppBar(),
@@ -42,7 +47,7 @@ class _UsersScreen extends State<UsersScreen> {
               padding: EdgeInsets.symmetric(vertical:30),
               child: Container(
                     width: size.width*0.9,
-                    child: buildGridView(kPrimaryColor),
+                    child: buildGridView(kPrimaryColor,cont),
               ),
             ),
             Container(
@@ -52,7 +57,16 @@ class _UsersScreen extends State<UsersScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child:  FloatingActionButton(
-                      onPressed: () {
+                      onPressed: () async{
+                        cont = 0;
+                        int length = await MongoDatabase.getDataLength();
+                        print("CONT: "+cont.toString());
+                        if(length > limit_grid){
+                          setState(() {
+                            cont += 8;
+                          });
+
+                        }
                         /*Navigator.of(context).popUntil(ModalRoute.withName('/menu'));
                         Navigator.push(
                           context,
@@ -79,9 +93,10 @@ class _UsersScreen extends State<UsersScreen> {
     );
   }
 
-  Widget buildGridView(Color color){
-    int cont = 8;
+  Widget buildGridView(Color color, int cont){
+    int limit = limit_grid;
     Size size = MediaQuery.of(context).size;
+
     return Container(
       child: FutureBuilder(
         future: MongoDatabase.getData(),
@@ -92,8 +107,10 @@ class _UsersScreen extends State<UsersScreen> {
             );
           }else{
             if(snapshot.hasData){
-              if(snapshot.data.length < cont){
-                cont = snapshot.data.length;
+              if(snapshot.data.length < limit){
+                limit = snapshot.data.length;
+                cont = 0;
+                print("CONT2: "+cont.toString());
               }
               return Center(
                 child: GridView.builder(
@@ -104,12 +121,13 @@ class _UsersScreen extends State<UsersScreen> {
                       mainAxisSpacing: 40,
                       //childAspectRatio: 3/3.5,
                     ),
-                    itemCount:snapshot.data.length,
+                    itemCount:limit,
                     itemBuilder: (context, index){
                         return displayData(
-                            UserDbModel.fromJson(snapshot.data[index]),
+                            UserDbModel.fromJson(snapshot.data[index+cont]),
                           color
                         );
+
                     }
                 ),
               );

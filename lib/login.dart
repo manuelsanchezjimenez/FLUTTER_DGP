@@ -1,9 +1,8 @@
 import 'package:app_dgp/models/UserDbModel.dart';
-import 'package:app_dgp/user.dart';
-import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'homepage.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -15,7 +14,7 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-
+  late String plainPwd;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +94,7 @@ class LoginState extends State<Login> {
                       child: TextFormField(
                         controller: TextEditingController(text: ''),
                         onChanged: (value) {
-                          //widget.user.contra = value;
+                          plainPwd = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -146,14 +145,13 @@ class LoginState extends State<Login> {
                   )),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  var hashed = hash(_formKey.currentState.toString());
-                  print(hashed);
-                  final bool checkPassword = BCrypt.checkpw(widget.user.contra, hashed);
-                  print("BD: "+widget.user.contra);
-                 // print(encoded);
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
-                }
+
+                  final bool checkPassword = new DBCrypt().checkpw(plainPwd, widget.user.contra);
+                  if(checkPassword){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
+                    }
+                  }
               },
               child: Text(
                 'Iniciar sesion',
@@ -166,9 +164,9 @@ class LoginState extends State<Login> {
     );
   }
 
-  String hash(String pwd){
-    var salt = BCrypt.gensalt(prefix: "\$2b",logRounds: 4);
-    var encoded = BCrypt.hashpw(pwd,salt);
+  String hash(String plainPwd){
+    String salt = new DBCrypt().gensaltWithRounds(4);
+    var encoded = new DBCrypt().hashpw(plainPwd,salt );
     return encoded.toString();
   }
 }

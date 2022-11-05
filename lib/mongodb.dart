@@ -16,6 +16,11 @@ class MongoDatabase{
     await db.close();
   }
 
+  static Future<int> getDataLength()async{
+    final data = await getData();
+    return data.length.toInt();
+  }
+
   static Future<List<Map<String,dynamic>>> getData() async{
     final data = await collection.find().toList();
     return data;
