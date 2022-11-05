@@ -1,9 +1,10 @@
 import 'dart:ui';
+import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../login.dart';
+import 'login.dart';
 import '../mongodb.dart';
 
 class UsersScreen extends StatefulWidget{
@@ -50,43 +51,39 @@ class _UsersScreen extends State<UsersScreen> {
                     child: buildGridView(kPrimaryColor,cont),
               ),
             ),
-            Container(
-              alignment: Alignment.bottomRight,
-              child: Transform.scale(
-                scale: 1.5,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
-                  child:  FloatingActionButton(
-                      onPressed: () async{
+           Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             children: [
+               ArrowButton(
+                   icon: Icons.arrow_back,
+                   onPressed: () async{
+                     cont = 0;
+                     int length = await MongoDatabase.getDataLength();
+                     if(length > limit_grid) {
+                       setState(() {
+                         cont -= 8;
+                       });
+                     }
+                   },
+                   tooltip: "Anterior"
+               ),
+                ArrowButton(
+                    icon: Icons.arrow_forward,
+                    onPressed: () async{
                         cont = 0;
                         int length = await MongoDatabase.getDataLength();
-                        print("CONT: "+cont.toString());
-                        if(length > limit_grid){
+                        if(length > limit_grid) {
                           setState(() {
                             cont += 8;
                           });
-
                         }
-                        /*Navigator.of(context).popUntil(ModalRoute.withName('/menu'));
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ProfileScreen();
-                            },
-                          ),
-                        );*/
-                      },
-                      tooltip: 'Siguiente',
-                      backgroundColor: kPrimaryColor,
-                      child: Transform.scale(
-                        scale: 2,
-                        child: const Icon(Icons.arrow_forward),
-                      )
-                    ),
-                  ),
+                    },
+                    tooltip: "Siguiente"
                 )
-            )
+
+
+             ],
+           )
           ],
         ),
       )
@@ -110,7 +107,6 @@ class _UsersScreen extends State<UsersScreen> {
               if(snapshot.data.length < limit){
                 limit = snapshot.data.length;
                 cont = 0;
-                print("CONT2: "+cont.toString());
               }
               return Center(
                 child: GridView.builder(
@@ -169,7 +165,6 @@ class _UsersScreen extends State<UsersScreen> {
                   context,
                   MaterialPageRoute(builder: (context) => Login(user:data)),
                 );
-                //print(data.contra.toString());
               },
               child: Text('ALUMNO '
             )
