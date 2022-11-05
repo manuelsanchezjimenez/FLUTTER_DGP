@@ -80,8 +80,7 @@ class _UsersScreen extends State<UsersScreen> {
   }
 
   Widget buildGridView(Color color){
-    int display_cont = 8;
-    int total = 0;
+    int cont = 8;
     Size size = MediaQuery.of(context).size;
     return Container(
       child: FutureBuilder(
@@ -93,10 +92,8 @@ class _UsersScreen extends State<UsersScreen> {
             );
           }else{
             if(snapshot.hasData){
-              if(snapshot.data.length < display_cont){
-                display_cont = snapshot.data.length;
-              }else{
-
+              if(snapshot.data.length < cont){
+                cont = snapshot.data.length;
               }
               return Center(
                 child: GridView.builder(
@@ -107,7 +104,7 @@ class _UsersScreen extends State<UsersScreen> {
                       mainAxisSpacing: 40,
                       //childAspectRatio: 3/3.5,
                     ),
-                    itemCount:display_cont,
+                    itemCount:snapshot.data.length,
                     itemBuilder: (context, index){
                         return displayData(
                             UserDbModel.fromJson(snapshot.data[index]),
