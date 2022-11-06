@@ -15,6 +15,14 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   late String plainPwd;
+
+  void msgSnack(String msg) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg, style: TextStyle(fontSize: 20)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +61,10 @@ class LoginState extends State<Login> {
                     child: SizedBox(
                       width: 600, // Tamaño de la caja
                       child: TextFormField(
-                        controller: TextEditingController(text: widget.user.correo),
+                        controller:
+                            TextEditingController(text: widget.user.correo),
                         onChanged: (value) {
-                         // widget.user.nombre = value;
+                          // widget.user.nombre = value;
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -141,21 +150,27 @@ class LoginState extends State<Login> {
                   primary: kPrimaryColor,
                   shape: new RoundedRectangleBorder(
                     borderRadius:
-                        new BorderRadius.circular(30.0), // Borde redondo
+                        new BorderRadius.circular(300.0), // Borde redondo
                   )),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-
-                  final bool checkPassword = new DBCrypt().checkpw(plainPwd, widget.user.contra);
-                  if(checkPassword){
+                  final bool checkPassword =
+                      new DBCrypt().checkpw(plainPwd, widget.user.contra);
+                  if (checkPassword) {
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
-                    }
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => HomePage(user: widget.user)));
+                  } else {
+                    print("puta");
+                    msgSnack("Email o contraseña incorrectos");
+
                   }
+                }
               },
               child: Text(
                 'Iniciar sesion',
-                style: TextStyle(color: Colors.white, fontSize: 25),
+                style: TextStyle(color: Colors.red, fontSize: 25),
               ),
             ),
           ),
@@ -164,9 +179,9 @@ class LoginState extends State<Login> {
     );
   }
 
-  String hash(String plainPwd){
+  String hash(String plainPwd) {
     String salt = new DBCrypt().gensaltWithRounds(4);
-    var encoded = new DBCrypt().hashpw(plainPwd,salt );
+    var encoded = new DBCrypt().hashpw(plainPwd, salt);
     return encoded.toString();
   }
 }
