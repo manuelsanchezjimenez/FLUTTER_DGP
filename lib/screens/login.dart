@@ -1,9 +1,13 @@
+import 'package:app_dgp/components/round_button_picto.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
+import '../components/round_button.dart';
 import '../constants.dart';
 import 'homepage.dart';
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:http/http.dart' as http;
+
+import 'homepage_picto.dart';
 
 class Login extends StatefulWidget {
   UserDbModel user;
@@ -15,11 +19,20 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   late String plainPwd;
+
+  void msgSnack(String msg) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg, style: TextStyle(fontSize: 20)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Colegio de Educación Especial San Rafael",
           style: TextStyle(fontFamily: 'Sifonn'),
@@ -59,13 +72,16 @@ class LoginState extends State<Login> {
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return '¡Introduce algo!';
+                            return 'INTRODUCE UN CORREO ';
                           }
                           return null;
                         },
                         decoration: InputDecoration(
                             hintText: 'Nombre',
-                            icon: Icon(Icons.person),
+                            icon: Transform.scale(
+                              scale: 2,
+                              child: Icon(Icons.person),
+                            ),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(color: Colors.blue)),
@@ -98,7 +114,7 @@ class LoginState extends State<Login> {
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return '¡Introduce algo!';
+                            return 'INTRODUCE UNA CONTRASEÑA';
                           }
                           return null;
                         },
@@ -108,8 +124,8 @@ class LoginState extends State<Login> {
                             border:
                                 OutlineInputBorder(), // El borde cambia de color al clickar encima
                             labelText:
-                                'Contraseña', // Para que ponga "Contraseña" dentro antes de rellenarlo
-                            hintText: 'Contraseña',
+                                'CONTRASEÑA', // Para que ponga "Contraseña" dentro antes de rellenarlo
+                            hintText: 'CONTRASEÑA',
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(color: Colors.blue)),
@@ -122,43 +138,73 @@ class LoginState extends State<Login> {
                             focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(color: Colors.red)),
-                            icon: Icon(Icons
-                                .lock_outline) // Icono del candado a la izquierda
-                            ),
+                          icon: Transform.scale(
+                            scale: 2,
+                            child: Icon(Icons.lock_outline),
+                          ),
+                        ),
                         style: TextStyle(fontSize: 20), // Tamaño de la letra
                       ),
                     ),
                   ),
                 ],
               )),
-          Container(
-            // Botón de inicio de sesión
-            height: 90,
-            width: 250,
-            child: ElevatedButton(
-              // Botón
-              style: ElevatedButton.styleFrom(
-                  primary: kPrimaryColor,
-                  shape: new RoundedRectangleBorder(
-                    borderRadius:
-                        new BorderRadius.circular(30.0), // Borde redondo
-                  )),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-
-                  final bool checkPassword = new DBCrypt().checkpw(plainPwd, widget.user.contra);
-                  if(checkPassword){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
-                    }
-                  }
-              },
-              child: Text(
-                'Iniciar sesion',
-                style: TextStyle(color: Colors.white, fontSize: 25),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: RoundButton(
+                    text: "Volver",
+                    color: kPrimaryRed,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    width: 250,
+                    height: 90
+                ),
               ),
-            ),
-          ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child:Container(
+                  // Botón de inicio de sesión
+                  height: 90,
+                  width: 250,
+                  child: ElevatedButton(
+                    // Botón
+                    style: ElevatedButton.styleFrom(
+                        primary: kPrimaryColor,
+                        shape: new RoundedRectangleBorder(
+                          borderRadius:
+                          new BorderRadius.circular(30.0), // Borde redondo
+                        )),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        final bool checkPassword = new DBCrypt().checkpw(plainPwd, widget.user.contra);
+                        if(checkPassword){
+                          if(widget.user.tipo == 0){
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
+                          }else{
+                            //Cambiar cuando tengamos login adaptado
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) => HomePagePicto(user:widget.user)));
+                          }
+                        }else{
+                          msgSnack("Email o contraseña INCORRECTOS");
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Iniciar sesion',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+
         ],
       )),
     );
@@ -166,7 +212,7 @@ class LoginState extends State<Login> {
 
   String hash(String plainPwd){
     String salt = new DBCrypt().gensaltWithRounds(4);
-    var encoded = new DBCrypt().hashpw(plainPwd,salt );
+    var encoded = new DBCrypt().hashpw(plainPwd,salt);
     return encoded.toString();
   }
 }

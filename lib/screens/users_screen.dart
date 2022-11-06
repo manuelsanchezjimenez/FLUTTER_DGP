@@ -23,9 +23,9 @@ class _UsersScreen extends State<UsersScreen> {
       elevation: 0,
       title: Text(
         "Elige tu perfil",
-        style: GoogleFonts.arimo(
+        style: GoogleFonts.lexend(
           fontSize: 30,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           color: kPrimaryWhite,
         ),
       ),
@@ -34,7 +34,6 @@ class _UsersScreen extends State<UsersScreen> {
   }
     @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -80,8 +79,6 @@ class _UsersScreen extends State<UsersScreen> {
                     },
                     tooltip: "Siguiente"
                 )
-
-
              ],
            )
           ],
@@ -140,7 +137,7 @@ class _UsersScreen extends State<UsersScreen> {
 
   Widget displayData(UserDbModel data, Color color){
     final ButtonStyle style =ElevatedButton.styleFrom(
-      textStyle: GoogleFonts.arimo(
+      textStyle: GoogleFonts.lexend(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -172,10 +169,8 @@ class _UsersScreen extends State<UsersScreen> {
         ),
         const SizedBox(height:10),
         Text("${data.nombre}",
-          style: GoogleFonts.arimo(
+          style: GoogleFonts.lexend(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
           ),
         )
       ],

@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:app_dgp/components/round_button.dart';
+import 'package:app_dgp/components/round_button_picto.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
@@ -120,12 +120,13 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                       ],
                     )
                 ),
-                RoundButton(
+                RoundButtonPicto(
                     text: "Ver gráfica",
                     width: size.width*0.35,
                     height: size.height*0.25,
-                    icon: Icons.graphic_eq,
-                    onPressed: (){print(dataName.length);})
+                    picto: Image.asset('assets/grafica.png'),
+                    //icon: Icons.graphic_eq,
+                    onPressed: (){})
               ],
             ),
           )
@@ -157,20 +158,7 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
   }
   Widget buildTextDataCategory(List<String> nameCategory, List<IconData> icons){
     Size size = MediaQuery.of(context).size;
-   /* return Padding(
-        padding: EdgeInsets.symmetric(horizontal:size.width*0.02),
-        child: Container(
-          height: size.height*0.08,
-          alignment: Alignment.bottomRight,
-          child: Text(nameCategory,
-              style: GoogleFonts.arimo(
-              fontSize: 22,
-              fontWeight: FontWeight.normal,
-              color: Colors.black
-          )
-        ) ,
-      ),
-    );*/
+
     return ListView.builder(
         shrinkWrap: true,
           itemCount: nameCategory.length,
@@ -183,18 +171,6 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                   Container(
                     height: size.height*0.08,
                     alignment: Alignment.bottomRight,
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Icon(
-                          icons[index],
-                          color: Colors.blueGrey,
-                      ),
-                    )
-                  ),
-
-                  Container(
-                    height: size.height*0.08,
-                    alignment: Alignment.bottomRight,
                     child: Text('${nameCategory[index]}',
                         style: GoogleFonts.arimo(
                             fontSize: 22,
@@ -202,7 +178,17 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                             color: Colors.black
                         )
                     ),
-                  )
+                  ),Container(
+                      height: size.height*0.08,
+                      alignment: Alignment.bottomRight,
+                      child: Transform.scale(
+                        scale: 1.5,
+                        child: Icon(
+                          icons[index],
+                          color: Colors.blueGrey,
+                        ),
+                      )
+                  ),
                 ],
               )
               );

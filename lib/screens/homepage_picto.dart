@@ -57,14 +57,14 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../models/UserDbModel.dart';
 
-class HomePage extends StatefulWidget {
+class HomePagePicto extends StatefulWidget {
   UserDbModel user;
-  HomePage({required this.user});
+  HomePagePicto({required this.user});
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePagePicto> {
   get width => null;
 
   void wipeData(){
@@ -72,13 +72,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget crearBody(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
           Container(
             child: Container(
-              width: 300,
+              width: size.width*0.3,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -140,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Container(
                             // Botón de perfil
-                            height: 90,
+                            height: size.height*0.12,
                             width: 250,
                             child: Padding(
                               padding: EdgeInsets.only(top: 0, bottom: 0),
@@ -156,11 +157,20 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                       context, MaterialPageRoute(builder: (_) => ProfileScreen(user:widget.user)));
                                 },
-                                child: Text(
-                                  'Perfil',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 25),
-                                ),
+                                child:Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'PERFIL',
+                                    style:
+                                    TextStyle(color: kPrimaryWhite, fontSize: 25),
+                                  ),
+                                 Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/yo.png'),
+                                  )
+                                ],
+                              )
                               ),
                             )),
                         Padding(
@@ -168,11 +178,11 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(
                               left: 15.0,
                               right: 15.0,
-                              top: 150,
+                              top: 100,
                               bottom: 0), // Márgenes
                           child: Container(
-                            height: 90,
-                            width: 250,
+                            height: size.height*0.15,
+                            width: size.width*0.25,
                             child: ElevatedButton(
                               // Botón
                               style: ElevatedButton.styleFrom(
@@ -185,11 +195,26 @@ class _HomePageState extends State<HomePage> {
                                 wipeData();
                                 Navigator.of(context).popUntil((route) => route.isFirst);
                               },
-                              child: Text(
-                                'Cerrar sesión',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 25),
-                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: size.width*0.12,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: size.width*0.01),
+                                      child: Text(
+                                        'CERRAR SESIÓN',
+                                        style: TextStyle(color: kPrimaryWhite, fontSize: 25),
+                                      ),
+                                    )
+                                  ),
+                                  Transform.scale(
+                                    scale: 0.8,
+                                    child: Image.asset('assets/adios.png'),
+                                  )
+
+                                ],
+                              )
                             ),
                           ),
                         ),
@@ -206,64 +231,85 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
               child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                          height: 200,
-                          width: 900,
-                          child: ElevatedButton(
-                            // Botón
-                            style: ElevatedButton.styleFrom(
-                                primary: kPrimaryLightColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(
-                                  width: 2.0,
-                                  color: kPrimaryLightColor
+                child: Padding(
+                  padding: EdgeInsets.all(size.width*0.02),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                            height: size.height*0.25,
+                            width: size.width*0.7,
+                            child: ElevatedButton(
+                              // Botón
+                                style: ElevatedButton.styleFrom(
+                                  primary: kPrimaryLightColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(
+                                        width: 2.0,
+                                        color: kPrimaryLightColor
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              'Mis tareas',
-                              style:
-                                  TextStyle(color: kPrimaryColor, fontSize: 40),
-                            ),
-                          )),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                      height: 70,
-                      thickness: 1,
-                      indent: 0,
-                      endIndent: 0,
-                    ),
-                    Expanded(
-                      child: Container(
-                          height: 200,
-                          width: 900,
-                          child: ElevatedButton(
-                            // Botón
-                            style: ElevatedButton.styleFrom(
-                              primary: kPrimaryLightColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(
-                                    width: 2.0,
-                                    color: kPrimaryLightColor
+                                onPressed: () {},
+                                child:  Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'MIS TAREAS',
+                                      style:
+                                      TextStyle(color: kPrimaryColor, fontSize: 40),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: size.width*0.05),
+                                      child: Image.asset('assets/deberes.png'),
+                                    )
+                                  ],
+                                )
+                            )),
+                      ),
+                      const Divider(
+                        color: Colors.white,
+                        height: 70,
+                        thickness: 1,
+                        indent: 0,
+                        endIndent: 0,
+                      ),
+                      Expanded(
+                        child: Container(
+                            height: size.height*0.25,
+                            width: size.width*0.7,
+                            child: ElevatedButton(
+                              // Botón
+                                style: ElevatedButton.styleFrom(
+                                  primary: kPrimaryLightColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(
+                                        width: 2.0,
+                                        color: kPrimaryLightColor
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              'Mis actividades',
-                              style:
-                                  TextStyle(color: kPrimaryColor, fontSize: 40),
-                            ),
-                          )),
-                    ),
-                  ],
+                                onPressed: () {},
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'MIS ACTIVIDADES',
+                                      style:
+                                      TextStyle(color: kPrimaryColor, fontSize: 40),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: size.width*0.05),
+                                      child: Image.asset('assets/actividades.png'),
+                                    )
+                                  ],
+                                )
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -278,9 +324,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Página principal", style: TextStyle(fontFamily: 'Sifonn')),
+        title: Text("Página principal", style: TextStyle(
+            fontSize: 25,
+            fontFamily: 'Sifonn')),
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
       body: crearBody(context),
     );
