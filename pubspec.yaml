@@ -74,6 +74,9 @@ flutter:
   assets:
     - assets/
     - grafica.png
+    - actividades.png
+    - deberes.png
+    - adios.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
