@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 */
+import 'package:app_dgp/screens/activities_menu_screen.dart';
 import 'package:app_dgp/screens/login.dart';
 import 'package:app_dgp/mongodb.dart';
 import 'package:app_dgp/screens/profile_screen.dart';
@@ -56,6 +57,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../models/UserDbModel.dart';
+import 'activities_menu_screen_picto.dart';
 
 class HomePagePicto extends StatefulWidget {
   UserDbModel user;
@@ -110,7 +112,7 @@ class _HomePageState extends State<HomePagePicto> {
                             ),
                             child:SizedBox(
                                 width: 235,
-                                height: 90,
+                                height: 97,
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 10),
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePagePicto> {
                   ), // Cuadro superior-izquierdo: foto de perfil y nombre
                   const Divider(
                     color: Colors.white,
-                    height: 20,
+                    height: 10,
                     thickness: 1,
                     indent: 20,
                     endIndent: 0,
@@ -141,7 +143,7 @@ class _HomePageState extends State<HomePagePicto> {
                       children: [
                         Container(
                             // Botón de perfil
-                            height: size.height*0.12,
+                            height: 90,
                             width: 250,
                             child: Padding(
                               padding: EdgeInsets.only(top: 0, bottom: 0),
@@ -270,7 +272,7 @@ class _HomePageState extends State<HomePagePicto> {
                       ),
                       const Divider(
                         color: Colors.white,
-                        height: 70,
+                        height: 20,
                         thickness: 1,
                         indent: 0,
                         endIndent: 0,
@@ -291,7 +293,10 @@ class _HomePageState extends State<HomePagePicto> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (_) => ActivitiesMenuScreenPicto()));
+                                },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

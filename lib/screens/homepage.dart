@@ -56,6 +56,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../models/UserDbModel.dart';
+import 'activities_menu_screen.dart';
 
 class HomePage extends StatefulWidget {
   UserDbModel user;
@@ -97,7 +98,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
-                                    child: Image.asset('assets/default.jpg'))),
+                                    child: Image.asset('assets/default.jpg')
+                                )
+                            ),
                           ),
                         ),
                         Padding(
@@ -109,10 +112,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child:SizedBox(
                                 width: 235,
-                                height: 90,
+                                height: 95,
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                        horizontal: 5, vertical: 5),
                                     child: Center(
                                       child: Text(
                                         widget.user.nombre,
@@ -130,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                   ), // Cuadro superior-izquierdo: foto de perfil y nombre
                   const Divider(
                     color: Colors.white,
-                    height: 20,
+                    height: 10,
                     thickness: 1,
                     indent: 20,
                     endIndent: 0,
@@ -143,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                             height: 90,
                             width: 250,
                             child: Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 0),
+                              padding: EdgeInsets.only(top: 5, bottom: 0),
                               child: ElevatedButton(
                                 // Botón
                                 style: ElevatedButton.styleFrom(
@@ -255,7 +258,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ActivitiesMenuScreen()),
+                              );
+                            },
                             child: Text(
                               'Mis actividades',
                               style:

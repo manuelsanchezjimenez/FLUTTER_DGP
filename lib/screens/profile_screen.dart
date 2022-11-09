@@ -124,7 +124,11 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                     text: "Ver gráfica",
                     width: size.width*0.35,
                     height: size.height*0.25,
-                    picto: Image.asset('assets/grafica.png'),
+                    picto: Image.asset(
+                        'assets/grafica.png',
+                        height: size.height*0.18,
+                    ),
+                    color: kPrimaryColor,
                     //icon: Icons.graphic_eq,
                     onPressed: (){})
               ],

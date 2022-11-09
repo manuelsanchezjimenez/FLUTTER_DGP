@@ -30,9 +30,10 @@ class RoundButtonPicto extends StatelessWidget{
       height: height,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
-          child: FlatButton(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            color: color,
+          child: TextButton(
+              style: TextButton.styleFrom(
+                  backgroundColor: color
+              ),
             onPressed: onPressed,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

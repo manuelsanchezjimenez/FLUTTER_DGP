@@ -14,8 +14,17 @@ class UsersScreen extends StatefulWidget{
 }
 
 class _UsersScreen extends State<UsersScreen> {
-  int cont = 0;
+  late int cont;
   final int limit_grid = 8;
+  late int limit = limit_grid;
+
+  @override
+  void initState(){
+    super.initState();
+     setState(() {
+       cont=0;
+     });
+  }
 
   AppBar buildAppBar(){
     return AppBar(
@@ -43,17 +52,16 @@ class _UsersScreen extends State<UsersScreen> {
         child:Column(
           //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical:30),
-              child: Container(
+            Container(
                     width: size.width*0.9,
+                    height: size.height*0.81,
                     child: buildGridView(kPrimaryColor,cont),
-              ),
             ),
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
                ArrowButton(
+                   heroTag: "btn_back",
                    icon: Icons.arrow_back,
                    onPressed: () async{
                      cont = 0;
@@ -61,12 +69,23 @@ class _UsersScreen extends State<UsersScreen> {
                      if(length > limit_grid) {
                        setState(() {
                          cont -= 8;
+                         length += 8;
+                         if(cont == -8){
+                           cont = 0;
+                         }
                        });
+                       if(length > limit_grid){
+                         setState(() {
+                           limit=length;
+
+                         });
+                       }
                      }
                    },
                    tooltip: "Anterior"
                ),
                 ArrowButton(
+                    heroTag: "btn_forward",
                     icon: Icons.arrow_forward,
                     onPressed: () async{
                         cont = 0;
@@ -74,7 +93,13 @@ class _UsersScreen extends State<UsersScreen> {
                         if(length > limit_grid) {
                           setState(() {
                             cont += 8;
+                            length-=8;
                           });
+                          if(length < limit_grid){
+                            setState(() {
+                              limit=length;
+                            });
+                          }
                         }
                     },
                     tooltip: "Siguiente"
@@ -88,7 +113,7 @@ class _UsersScreen extends State<UsersScreen> {
   }
 
   Widget buildGridView(Color color, int cont){
-    int limit = limit_grid;
+    //limit = limit_grid;
     Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -105,24 +130,25 @@ class _UsersScreen extends State<UsersScreen> {
                 limit = snapshot.data.length;
                 cont = 0;
               }
-              return Center(
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 40,
-                      //childAspectRatio: 3/3.5,
-                    ),
-                    itemCount:limit,
-                    itemBuilder: (context, index){
-                        return displayData(
-                            UserDbModel.fromJson(snapshot.data[index+cont]),
-                          color
-                        );
+              return Padding(padding: EdgeInsets.only(top: 50),
+              child: GridView.builder(
+                  //shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 30,
+                    //mainAxisExtent: 20
+                    //childAspectRatio: 3/3.5,
+                  ),
+                  itemCount:limit,
+                  itemBuilder: (context, index){
+                    return displayData(
+                        UserDbModel.fromJson(snapshot.data[index+cont]),
+                        color
+                    );
 
-                    }
-                ),
+                  }
+
+                )
               );
             }else{
               return Center(
@@ -136,13 +162,14 @@ class _UsersScreen extends State<UsersScreen> {
   }
 
   Widget displayData(UserDbModel data, Color color){
+    Size size = MediaQuery.of(context).size;
     final ButtonStyle style =ElevatedButton.styleFrom(
       textStyle: GoogleFonts.lexend(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      fixedSize: const Size(200, 80),
+      //fixedSize: const Size(220, 80),
       primary: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
@@ -152,28 +179,36 @@ class _UsersScreen extends State<UsersScreen> {
         ),
       ),
     );
-    return Column(
-      children: [
-        Expanded(
-            child: ElevatedButton(
-              style: style,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login(user:data)),
-                );
-              },
-              child: Text('ALUMNO '
-            )
-           ),
-        ),
-        const SizedBox(height:10),
-        Text("${data.nombre}",
-          style: GoogleFonts.lexend(
-            fontSize: 20,
-          ),
-        )
-      ],
+    return Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          children: [
+            Container(
+              height: size.height*0.3,
+              width: size.width*0.15,
+              child: ElevatedButton(
+                  style: style,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login(user:data)),
+                    );
+                  },
+                  child: Text('ALUMNO '
+                  )
+              ),
+            ),
+            Container(
+                width: size.width*0.2,
+                height: size.height*0.18,
+                child: Text("${data.nombre}",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.lexend(
+                    fontSize: 20,
+                  ),
+                ),
+              )
+          ],
     );
   }
 

@@ -25,7 +25,7 @@ class MongoDatabase{
     final data = await collection.find().toList();
     return data;
   }
- static Future<Map<String,dynamic>>getContra(String user) async{
+  static Future<Map<String,dynamic>>getContra(String user) async{
     var contra = await collection.findOne(mongo.where.eq('nombre',user));
     return contra;
   }

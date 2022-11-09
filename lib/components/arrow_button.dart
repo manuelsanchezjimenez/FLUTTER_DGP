@@ -7,13 +7,15 @@ class ArrowButton extends StatelessWidget{
   final VoidCallback onPressed;
   final Color color;
   final String tooltip;
+  final String heroTag;
 
   ArrowButton({
     Key? key,
     required this.icon,
     required this.onPressed,
     this.color = kPrimaryColor,
-    required this.tooltip
+    required this.tooltip,
+    required this.heroTag
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class ArrowButton extends StatelessWidget{
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child:  FloatingActionButton(
+                heroTag: heroTag ,
                 onPressed: onPressed,
                 tooltip: tooltip,
                 backgroundColor: kPrimaryColor,
