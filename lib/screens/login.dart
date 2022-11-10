@@ -35,7 +35,12 @@ class LoginState extends State<Login> {
         centerTitle: true,
         title: Text(
           "Colegio de Educación Especial San Rafael",
-          style: TextStyle(fontFamily: 'Sifonn'),
+        style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryWhite,
+              fontFamily: 'Escolar'
+          ),
         ),
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
@@ -94,7 +99,11 @@ class LoginState extends State<Login> {
                             focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(color: Colors.red))),
-                        style: TextStyle(fontSize: 20), // Tamaño de la letra
+                        style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Escolar'
+                        ), // Tamaño de la letra
                       ),
                     ),
                   ),
@@ -104,7 +113,7 @@ class LoginState extends State<Login> {
                         left: 30.0,
                         right: 15.0,
                         top: 5,
-                        bottom: 70), // Márgenes
+                        bottom: 40), // Márgenes
                     child: SizedBox(
                       width: 600, // Tamaño de la caja
                       child: TextFormField(
@@ -143,7 +152,11 @@ class LoginState extends State<Login> {
                             child: Icon(Icons.lock_outline),
                           ),
                         ),
-                        style: TextStyle(fontSize: 20), // Tamaño de la letra
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Escolar'
+                        ), // Tamaño de la letra
                       ),
                     ),
                   ),
@@ -165,7 +178,7 @@ class LoginState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(5),
                 child:Container(
                   // Botón de inicio de sesión
                   height: 90,
@@ -196,8 +209,12 @@ class LoginState extends State<Login> {
                       }
                     },
                     child: Text(
-                      'Iniciar sesion',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
+                      'Iniciar sesión',
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Escolar'
+                      ),
                     ),
                   ),
                 ),

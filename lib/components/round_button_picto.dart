@@ -40,10 +40,11 @@ class RoundButtonPicto extends StatelessWidget{
               children: [
                   Text(
                     text,
-                    style: GoogleFonts.lexend(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
+                    style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryWhite,
+                        fontFamily: 'Escolar'
                     ),
                   ),
                   Transform.scale(

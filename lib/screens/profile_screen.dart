@@ -36,10 +36,11 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
       ),
       title: Text(
         "Perfil",
-        style: GoogleFonts.arimo(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-          color: kPrimaryWhite,
+        style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryWhite,
+            fontFamily: 'Escolar'
         ),
       ),
       centerTitle: true,
@@ -68,7 +69,13 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                             alignment: Alignment.center,
                             color: kPrimaryColor,
                             child: Text("FOTO ALUMNO",
-                                textScaleFactor: 2),
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryWhite,
+                                    fontFamily: 'Escolar'
+                                ),
+                            ),
                           ),
                         ),
                         Padding(
@@ -152,12 +159,14 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
             ),
         child: Text(
             data,
-            style: GoogleFonts.arimo(
-                fontSize: 22,
+            style: TextStyle(
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueGrey
-            )),
-          )
+                color: Colors.blueGrey,
+                fontFamily: 'Escolar'
+            ),
+          ),
+      )
     );
   }
   Widget buildTextDataCategory(List<String> nameCategory, List<IconData> icons){
@@ -168,7 +177,7 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
           itemCount: nameCategory.length,
           itemBuilder: (BuildContext context, int index){
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal:size.width*0.02),
+              padding: EdgeInsets.symmetric(horizontal:size.width*0.01),
               child:Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,13 +185,14 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
                     height: size.height*0.08,
                     alignment: Alignment.bottomRight,
                     child: Text('${nameCategory[index]}',
-                        style: GoogleFonts.arimo(
-                            fontSize: 22,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black
-                        )
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Escolar'
+                        ),
+                      )
                     ),
-                  ),Container(
+                  Container(
                       height: size.height*0.08,
                       alignment: Alignment.bottomRight,
                       child: Transform.scale(

@@ -114,19 +114,20 @@ class _HomePageState extends State<HomePagePicto> {
                                 width: 235,
                                 height: 97,
                                 child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                    padding: EdgeInsets.symmetric( vertical: 10),
                                     child: Center(
                                       child: Text(
                                         widget.user.nombre,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: kPrimaryColor,
+                                          fontFamily: 'Escolar'
                                       ),
                                     ))),
                           ),
+                          )
                         )
                       ],
                     ),
@@ -143,8 +144,8 @@ class _HomePageState extends State<HomePagePicto> {
                       children: [
                         Container(
                             // Botón de perfil
-                            height: 90,
-                            width: 250,
+                            height: size.height*0.11,
+                            width: size.width*0.20,
                             child: Padding(
                               padding: EdgeInsets.only(top: 0, bottom: 0),
                               child: ElevatedButton(
@@ -160,12 +161,16 @@ class _HomePageState extends State<HomePagePicto> {
                                       context, MaterialPageRoute(builder: (_) => ProfileScreen(user:widget.user)));
                                 },
                                 child:Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'PERFIL',
-                                    style:
-                                    TextStyle(color: kPrimaryWhite, fontSize: 25),
+                                    'Perfil',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: kPrimaryWhite,
+                                        fontFamily: 'Escolar'
+                                    ),
                                   ),
                                  Padding(
                                     padding: EdgeInsets.all(5),
@@ -183,8 +188,8 @@ class _HomePageState extends State<HomePagePicto> {
                               top: 100,
                               bottom: 0), // Márgenes
                           child: Container(
-                            height: size.height*0.15,
-                            width: size.width*0.25,
+                            height: size.height*0.11,
+                            width: size.width*0.22,
                             child: ElevatedButton(
                               // Botón
                               style: ElevatedButton.styleFrom(
@@ -205,8 +210,13 @@ class _HomePageState extends State<HomePagePicto> {
                                     child: Padding(
                                       padding: EdgeInsets.only(left: size.width*0.01),
                                       child: Text(
-                                        'CERRAR SESIÓN',
-                                        style: TextStyle(color: kPrimaryWhite, fontSize: 25),
+                                        'Cerrar sesión',
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: kPrimaryWhite,
+                                            fontFamily: 'Escolar'
+                                        ),
                                       ),
                                     )
                                   ),
@@ -258,12 +268,16 @@ class _HomePageState extends State<HomePagePicto> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'MIS TAREAS',
-                                      style:
-                                      TextStyle(color: kPrimaryColor, fontSize: 40),
+                                      'Mis tareas',
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                          color: kPrimaryColor,
+                                          fontFamily: 'Escolar'
+                                      ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: size.width*0.05),
+                                      padding: EdgeInsets.only(left: size.width*0.1),
                                       child: Image.asset('assets/deberes.png'),
                                     )
                                   ],
@@ -301,9 +315,13 @@ class _HomePageState extends State<HomePagePicto> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'MIS ACTIVIDADES',
-                                      style:
-                                      TextStyle(color: kPrimaryColor, fontSize: 40),
+                                      'Mis actividades',
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                          color: kPrimaryColor,
+                                          fontFamily: 'Escolar'
+                                      ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width*0.05),
@@ -329,9 +347,13 @@ class _HomePageState extends State<HomePagePicto> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Página principal", style: TextStyle(
-            fontSize: 25,
-            fontFamily: 'Sifonn')),
+        title: Text("Página principal",
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryWhite,
+            fontFamily: 'Escolar'
+        ),),
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
         centerTitle: true,

@@ -1,52 +1,3 @@
-/*
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-class MyHomePage extends StatefulWidget {
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Nombre aplicación"),
-      ),
-      body: Center(
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-*/
 import 'package:app_dgp/screens/login.dart';
 import 'package:app_dgp/mongodb.dart';
 import 'package:app_dgp/screens/profile_screen.dart';
@@ -121,9 +72,11 @@ class _HomePageState extends State<HomePage> {
                                         widget.user.nombre,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: kPrimaryColor,
+                                          fontFamily: 'Escolar'
+                                        ),
                                       ),
                                     ))),
                           ),
@@ -162,7 +115,11 @@ class _HomePageState extends State<HomePage> {
                                 child: Text(
                                   'Perfil',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 25),
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: kPrimaryWhite,
+                                      fontFamily: 'Escolar'
+                                  ),
                                 ),
                               ),
                             )),
@@ -191,11 +148,15 @@ class _HomePageState extends State<HomePage> {
                               child: Text(
                                 'Cerrar sesión',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 25),
-                              ),
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryWhite,
+                                    fontFamily: 'Escolar'
+                                ),
                             ),
                           ),
                         ),
+                        )
                       ],
                     ),
                   ), // Cuadro inferior-izquierdo: botones perfil y cerrar sesión
@@ -230,8 +191,12 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {},
                             child: Text(
                               'Mis tareas',
-                              style:
-                                  TextStyle(color: kPrimaryColor, fontSize: 40),
+                              style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  color: kPrimaryColor,
+                                  fontFamily: 'Escolar'
+                              ),
                             ),
                           )),
                     ),
@@ -266,8 +231,12 @@ class _HomePageState extends State<HomePage> {
                             },
                             child: Text(
                               'Mis actividades',
-                              style:
-                                  TextStyle(color: kPrimaryColor, fontSize: 40),
+                              style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                  color: kPrimaryColor,
+                                  fontFamily: 'Escolar'
+                              ),
                             ),
                           )),
                     ),
@@ -286,7 +255,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Página principal", style: TextStyle(fontFamily: 'Sifonn')),
+        title: Text("Página principal",
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryWhite,
+              fontFamily: 'Escolar'
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
       ),

@@ -39,10 +39,11 @@ class RoundButton extends StatelessWidget{
                 children: [
                   Text(
                     text,
-                    style: GoogleFonts.lexend(
-                      fontSize: 25,
-                      fontWeight: FontWeight.normal,
-                      color: textColor,
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryWhite,
+                        fontFamily: 'Escolar'
                     ),
                   ),
                 ]

@@ -32,10 +32,11 @@ class _UsersScreen extends State<UsersScreen> {
       elevation: 0,
       title: Text(
         "Elige tu perfil",
-        style: GoogleFonts.lexend(
-          fontSize: 30,
-          fontWeight: FontWeight.normal,
-          color: kPrimaryWhite,
+        style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryWhite,
+            fontFamily: 'Escolar'
         ),
       ),
       centerTitle: true,
@@ -77,7 +78,6 @@ class _UsersScreen extends State<UsersScreen> {
                        if(length > limit_grid){
                          setState(() {
                            limit=length;
-
                          });
                        }
                      }
@@ -130,7 +130,7 @@ class _UsersScreen extends State<UsersScreen> {
                 limit = snapshot.data.length;
                 cont = 0;
               }
-              return Padding(padding: EdgeInsets.only(top: 50),
+              return Padding(padding: EdgeInsets.only(top: 32),
               child: GridView.builder(
                   //shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -145,9 +145,7 @@ class _UsersScreen extends State<UsersScreen> {
                         UserDbModel.fromJson(snapshot.data[index+cont]),
                         color
                     );
-
                   }
-
                 )
               );
             }else{
@@ -164,10 +162,11 @@ class _UsersScreen extends State<UsersScreen> {
   Widget displayData(UserDbModel data, Color color){
     Size size = MediaQuery.of(context).size;
     final ButtonStyle style =ElevatedButton.styleFrom(
-      textStyle: GoogleFonts.lexend(
+      textStyle: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Colors.black,
+        fontFamily: 'Escolar'
       ),
       //fixedSize: const Size(220, 80),
       primary: color,
@@ -186,26 +185,32 @@ class _UsersScreen extends State<UsersScreen> {
             Container(
               height: size.height*0.3,
               width: size.width*0.15,
-              child: ElevatedButton(
-                  style: style,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login(user:data)),
-                    );
-                  },
-                  child: Text('ALUMNO '
-                  )
+              child:Padding(
+                padding: EdgeInsets.only(top: size.height*0.02),
+                child: ElevatedButton(
+                      style: style,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login(user:data)),
+                        );
+                      },
+                      child: Text('ALUMNO '
+                      )
+                  ),
+                ),
               ),
-            ),
             Container(
                 width: size.width*0.2,
                 height: size.height*0.18,
                 child: Text("${data.nombre}",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.lexend(
-                    fontSize: 20,
-                  ),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontFamily: 'Escolar'
+                      ),
                 ),
               )
           ],
