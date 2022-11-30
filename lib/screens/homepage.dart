@@ -1,6 +1,7 @@
 import 'package:app_dgp/screens/login.dart';
 import 'package:app_dgp/mongodb.dart';
 import 'package:app_dgp/screens/profile_screen.dart';
+import 'package:app_dgp/screens/tareas_menu.dart';
 import 'package:app_dgp/screens/users_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +42,18 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsets.only(left: 15.0, right: 15.0, top: 30),
+                              EdgeInsets.only(left: 15.0, right: 15.0, top: 20),
                           child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kPrimaryColor, width: 4)
+                            ),
                             child: SizedBox(
-                                width: 240,
+                                width: 220,
                                 height: 240,
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
-                                    child: Image.asset('assets/default.jpg')
+                                    child: Image.asset(widget.user.img)
                                 )
                             ),
                           ),
@@ -188,7 +192,10 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user)));
+                            },
                             child: Text(
                               'Mis tareas',
                               style: TextStyle(

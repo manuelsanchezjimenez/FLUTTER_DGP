@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
+import 'package:app_dgp/screens/login_adapted_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'login.dart';
 import '../mongodb.dart';
 
@@ -18,11 +18,14 @@ class _UsersScreen extends State<UsersScreen> {
   final int limit_grid = 8;
   late int limit = limit_grid;
 
+
   @override
   void initState(){
     super.initState();
+    COLLECTION_NAME = "student";
      setState(() {
        cont=0;
+
      });
   }
 
@@ -115,7 +118,6 @@ class _UsersScreen extends State<UsersScreen> {
   Widget buildGridView(Color color, int cont){
     //limit = limit_grid;
     Size size = MediaQuery.of(context).size;
-
     return Container(
       child: FutureBuilder(
         future: MongoDatabase.getData(),
@@ -135,7 +137,7 @@ class _UsersScreen extends State<UsersScreen> {
                   //shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    mainAxisSpacing: 30,
+                    mainAxisSpacing: 40,
                     //mainAxisExtent: 20
                     //childAspectRatio: 3/3.5,
                   ),
@@ -161,42 +163,32 @@ class _UsersScreen extends State<UsersScreen> {
 
   Widget displayData(UserDbModel data, Color color){
     Size size = MediaQuery.of(context).size;
-    final ButtonStyle style =ElevatedButton.styleFrom(
-      textStyle: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-        fontFamily: 'Escolar'
-      ),
-      //fixedSize: const Size(220, 80),
-      primary: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
-        side: BorderSide(
-          color: color,
-          width: 2.0,
-        ),
-      ),
-    );
     return Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
             Container(
-              height: size.height*0.3,
+              height: size.height*0.29,
               width: size.width*0.15,
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: kPrimaryColor),
+                borderRadius: BorderRadius.circular(10)
+              ),
               child:Padding(
                 padding: EdgeInsets.only(top: size.height*0.02),
-                child: ElevatedButton(
-                      style: style,
+                child: IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Login(user:data)),
-                        );
+                        data.img = 'assets/ejemplo.jpg';
+                        if(data.tipo == 0){
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => Login(user:data)));
+                        }else{
+                          //Login adaptado
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => LoginAdapted(user:data)));
+                        }
                       },
-                      child: Text('ALUMNO '
-                      )
+                      icon: Image.asset('assets/ejemplo.jpg'),
                   ),
                 ),
               ),

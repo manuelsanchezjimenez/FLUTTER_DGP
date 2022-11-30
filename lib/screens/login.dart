@@ -195,14 +195,8 @@ class LoginState extends State<Login> {
                       if (_formKey.currentState!.validate()) {
                         final bool checkPassword = new DBCrypt().checkpw(plainPwd, widget.user.contra);
                         if(checkPassword){
-                          if(widget.user.tipo == 0){
                             Navigator.push(
                                 context, MaterialPageRoute(builder: (_) => HomePage(user:widget.user)));
-                          }else{
-                            //Cambiar cuando tengamos login adaptado
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (_) => HomePagePicto(user:widget.user)));
-                          }
                         }else{
                           msgSnack("Email o contraseña INCORRECTOS");
                         }

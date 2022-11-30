@@ -31,7 +31,7 @@ class RoundButton extends StatelessWidget{
         borderRadius: BorderRadius.circular(30),
         child: TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: kPrimaryRed
+              backgroundColor: color
             ),
             onPressed: onPressed,
             child: Row(

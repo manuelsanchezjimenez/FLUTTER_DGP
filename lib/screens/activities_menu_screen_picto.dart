@@ -74,19 +74,22 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ArrowButton(
-                      heroTag: "btn_back",
-                      icon: Icons.arrow_back,
-                      onPressed: () async{
-                        cont = 0;
-                        //int length = await MongoDatabase.getDataLength();
-                       /* if(length > limit_list) {
+                  Semantics(
+                    focused: true,
+                    child: ArrowButton(
+                        heroTag: "btn_back",
+                        icon: Icons.arrow_back,
+                        onPressed: () async{
+                          cont = 0;
+                          //int length = await MongoDatabase.getDataLength();
+                          /* if(length > limit_list) {
                           setState(() {
                             cont -= 8;
                           });*/
-                        //}
-                      },
-                      tooltip: "Anterior"
+                          //}
+                        },
+                        tooltip: "Anterior"
+                    ),
                   ),
                   ArrowButton(
                       heroTag: "btn_forward",

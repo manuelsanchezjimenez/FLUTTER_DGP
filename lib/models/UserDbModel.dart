@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class UserDbModel{
@@ -10,6 +11,7 @@ class UserDbModel{
   int clase;
   late String profesor;
   late String contra;
+  late String img;
 
   UserDbModel({
         required this.id,

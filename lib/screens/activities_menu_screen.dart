@@ -17,7 +17,7 @@ class ActivitiesMenuScreen extends StatefulWidget{
 class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
   late int cont;
   final int limit_list= 3;
-  List<String> lista_acciones= ["ATARSE LOS CORDONES", "APRENDE LAS EMOCIONES", "LAVARSE LAS MANOS"];
+  List<String> lista_acciones= ["Atarse los cordones", "Aprende las emociones", "Lavarse las manos"];
   List<String> links = [
     "https://www.youtube.com/watch?v=Ma05YV2XLc8",
     "https://www.youtube.com/watch?v=qBZSlGo4N1k&t=44s",
@@ -41,11 +41,12 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
           )
       ),
       title: Text(
-        "ACTIVIDADES",
-        style: GoogleFonts.lexend(
-          fontSize: 30,
-          fontWeight: FontWeight.normal,
-          color: kPrimaryWhite,
+        "Actividades",
+        style: TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryWhite,
+            fontFamily: 'Escolar'
         ),
       ),
       centerTitle: true,
@@ -154,11 +155,12 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
               },
               child: Text(
                 lista_acciones[index],
-                style: GoogleFonts.lexend(
-                fontSize: 30,
-                fontWeight: FontWeight.normal,
-                color: kPrimaryWhite,
-                )
+                style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryWhite,
+                    fontFamily: 'Escolar'
+                ),
               )
           ),
         )
