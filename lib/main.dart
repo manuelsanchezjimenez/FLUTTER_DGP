@@ -7,7 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 Future<void>main()async{
   WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
+  await MongoDatabase.connect(COLLECTION_NAME);
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 class MyApp extends StatelessWidget {

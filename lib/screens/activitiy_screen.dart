@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:app_dgp/models/ActivityImageDbModel.dart';
 import 'package:video_player/video_player.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,42 +10,51 @@ import '../components/arrow_button.dart';
 import '../mongodb.dart';
 
 class ActivityScreen extends StatefulWidget{
-  String name, link;
-  ActivityScreen({required this.name, required this.link});
+  String name, link, descripcion;
+  final dataImage;
+  ActivityScreen({required this.name, required this.link, required this.descripcion, required this.dataImage});
   @override
   _ActivityScreen createState() => _ActivityScreen();
 }
 
 class _ActivityScreen extends State<ActivityScreen> {
  // late VideoPlayerController _controller;
-  late YoutubePlayerController _youtubecontroller;
+  late YoutubePlayerController? _youtubecontroller;
   int selectedIndex = 1;
   int cont = 0;
-  List<String> buttons = ["Pasos", "Video",];
+  List<String> buttons = ["Pasos", "Video"];
   bool isVisibleVideo = true;
   bool isVisibleText = false;
   metadata.MetaDataModel? metaData;
-  List<String> pasos = ["Mojarse las manos", "Echarse jabón", "Frotar las palmas",
-                        "Frotar entre los espacios de los dedos", "Frotar el dorso de la mano",
-                        "Enjuagarse las manos con agua", "Secarse las manos con una toalla"];
+  late List<String> splitted;
 
 
   @override
   void initState(){
     super.initState();
-    String url = widget.link;
-    _youtubecontroller = YoutubePlayerController(
-        initialVideoId:YoutubePlayer.convertUrlToId(url)!,
-            flags: const YoutubePlayerFlags(
+    if(widget.link !=''){
+      String url = widget.link;
+      _youtubecontroller = YoutubePlayerController(
+          initialVideoId:YoutubePlayer.convertUrlToId(url)!,
+          flags: const YoutubePlayerFlags(
               mute: false,
               loop: false,
               autoPlay: false
-       )
-    );
+          )
+      );
+    }
+    splitted = widget.descripcion.split("\n");
+    if(ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen.isNotEmpty){
+      print("true");
+    }
+    if(widget.dataImage == null){
+      print("null");
+    }
+    //print( );
   }
 
   void dispose() {
-    _youtubecontroller.dispose();
+    _youtubecontroller!.dispose();
     super.dispose();
   }
 
@@ -110,9 +120,7 @@ class _ActivityScreen extends State<ActivityScreen> {
                         child: Container(
                           height: size.width*0.4,
                           width: size.width*0.8,
-                          child: YoutubePlayer(
-                            controller: _youtubecontroller,
-                          ),
+                          child: widget.link == '' ? new Text("No hay video") : YoutubePlayer(controller: _youtubecontroller!)
                         ),
                       ),
                       Visibility(
@@ -153,8 +161,8 @@ class _ActivityScreen extends State<ActivityScreen> {
                                     Container(
                                       height: size.height*0.08,
                                       alignment: Alignment.center,
-                                      child: new Text(
-                                          'Paso '+ (cont+1).toString()+': ' +pasos.elementAt(cont),
+                                      child: widget.descripcion == '' ? new Text("No hay pasos definidos") : new Text(
+                                          'Paso '+ splitted[cont].toString(),
                                           style: TextStyle(
                                               fontSize: 35,
                                               fontWeight: FontWeight.bold,
@@ -164,7 +172,9 @@ class _ActivityScreen extends State<ActivityScreen> {
                                     ),
                                     Container(
                                       height: size.height*0.5,
-                                      child: Image.asset('assets/pasosprovisional/'+(cont+1).toString()+'.png'),
+                                      child: ActivityImageDbModel.fromJson(widget.dataImage[0]).imagen == ' ' ?
+                                        new Center(child: new Text("No hay imágenes", style: TextStyle(fontSize: 20)),) :
+                                      Image.asset('assets/pasosprovisional/'+ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen),
                                     )
                                   ],
                                 )
@@ -174,8 +184,8 @@ class _ActivityScreen extends State<ActivityScreen> {
                                   icon: Icons.arrow_forward,
                                   onPressed: (){
                                     setState(() {
-                                      if(cont == pasos.length-1){
-                                        cont = pasos.length-1;
+                                      if(cont == splitted.length-1){
+                                        cont = splitted.length-1;
                                       }else{
                                         cont++;
                                       }

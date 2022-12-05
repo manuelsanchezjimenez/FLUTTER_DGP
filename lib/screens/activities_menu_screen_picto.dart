@@ -152,10 +152,10 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ActivityScreen(name: lista_acciones[index], link: links[index],)),
-                );
+                );*/
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

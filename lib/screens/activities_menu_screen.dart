@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
+import 'package:app_dgp/models/ActivityDbModel.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:app_dgp/screens/activitiy_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../models/ActivityImageDbModel.dart';
 import '../mongodb.dart';
 
 class ActivitiesMenuScreen extends StatefulWidget{
@@ -17,15 +19,19 @@ class ActivitiesMenuScreen extends StatefulWidget{
 class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
   late int cont;
   final int limit_list= 3;
-  List<String> lista_acciones= ["Atarse los cordones", "Aprende las emociones", "Lavarse las manos"];
-  List<String> links = [
+  late int limit = limit_list;
+  /*List<String> lista_acciones= ["Atarse los cordones", "Aprende las emociones", "Lavarse las manos"];*/
+  /*List<String> links = [
     "https://www.youtube.com/watch?v=Ma05YV2XLc8",
     "https://www.youtube.com/watch?v=qBZSlGo4N1k&t=44s",
     "https://www.youtube.com/watch?v=-_2vPIB6Ofc&list=PLBal9AttAE0twHdBKuZzz2NnBDIn8uDLF&index=4"
-  ];
+  ];*/
 
   void initState(){
-    cont = 0;
+    setState(() {
+      cont=0;
+    });
+    //await MongoDatabase.getActivityData();
   }
   AppBar buildAppBar(){
     return AppBar(
@@ -63,14 +69,12 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
           child:Column(
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical:size.height*0.02),
-                child: Container(
+               Container(
                   width: size.width*0.9,
+                  height: size.height*0.81,
                   child: buildList(kPrimaryColor,cont),
-                ),
-              ),
-              Row(
+               ),
+            Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ArrowButton(
@@ -78,12 +82,21 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
                       icon: Icons.arrow_back,
                       onPressed: () async{
                         cont = 0;
-                        //int length = await MongoDatabase.getDataLength();
-                       /* if(length > limit_list) {
+                        int length = await MongoDatabase.getDataActivityLength();
+                        if(length > limit_list) {
                           setState(() {
-                            cont -= 8;
-                          });*/
-                        //}
+                            cont -= 3;
+                            length += 3;
+                            if(cont == -3){
+                              cont = 0;
+                            }
+                          });
+                          if(length > limit_list){
+                            setState(() {
+                              limit=limit_list;
+                            });
+                          }
+                        }
                       },
                       tooltip: "Anterior"
                   ),
@@ -92,12 +105,18 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
                       icon: Icons.arrow_forward,
                       onPressed: () async{
                         cont = 0;
-                        /*int length = await MongoDatabase.getDataLength();
+                        int length = await MongoDatabase.getDataActivityLength();
                         if(length > limit_list) {
                           setState(() {
-                            cont += 8;
-                          });*/
-                        //}
+                            cont += 3;
+                            length-= 3;
+                          });
+                          if(length < limit_list){
+                            setState(() {
+                              limit=length;
+                            });
+                          }
+                        }
                       },
                       tooltip: "Siguiente"
                   )
@@ -110,19 +129,47 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
   }
 
   Widget buildList(Color color, int cont){
-    int limit = limit_list;
+    //limit = limit_grid;
+    //limit = limit_list;
     Size size = MediaQuery.of(context).size;
-
-    return ListView.builder(
-        shrinkWrap: true,
-          itemCount: limit_list,
-          itemBuilder: (context, index){
-            return displayData(color, index);
-          }
+    return Container(
+        child: FutureBuilder(
+          future: MongoDatabase.getActivityData(),
+          builder: (context, AsyncSnapshot snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }else{
+              if(snapshot.hasData){
+                if(snapshot.data.length < limit){
+                  limit = snapshot.data.length;
+                  cont = 0;
+                }
+                return Padding(padding: EdgeInsets.only(top: 25),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:limit,
+                        itemBuilder: (context, index){
+                          return displayData(
+                              ActivityDbModel.fromJson(snapshot.data[index+cont]),
+                              color
+                          );
+                        }
+                    )
+                );
+              }else{
+                return Center(
+                  child: Text("Data not found"),
+                );
+              }
+            }
+          },
+        )
     );
   }
 
-  Widget displayData(Color color, int index){
+  Widget displayData(ActivityDbModel data, Color color){
     Size size = MediaQuery.of(context).size;
 
     return Padding(
@@ -147,14 +194,25 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
                   ),
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                var actImgdata = await MongoDatabase.getQueryActivityData("${data.nombre}");
+                var json;
+                if(actImgdata.isEmpty){
+                  actImgdata = [
+                    {
+                      'actividad': ' ',
+                      'orden': 0,
+                      'imagen': ' '
+                    }
+                  ];
+                }
+               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ActivityScreen(name: lista_acciones[index], link: links[index],)),
+                  MaterialPageRoute(builder: (context) => ActivityScreen(name: "${data.nombre}", link: "${data.enlaceVideo}", descripcion: "${data.descripcion}", dataImage: actImgdata,)),
                 );
               },
               child: Text(
-                lista_acciones[index],
+                "${data.nombre}",
                 style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.bold,

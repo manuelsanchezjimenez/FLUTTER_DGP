@@ -22,10 +22,9 @@ class _UsersScreen extends State<UsersScreen> {
   @override
   void initState(){
     super.initState();
-    COLLECTION_NAME = "student";
+    //COLLECTION_NAME = "student";
      setState(() {
        cont=0;
-
      });
   }
 
@@ -69,7 +68,7 @@ class _UsersScreen extends State<UsersScreen> {
                    icon: Icons.arrow_back,
                    onPressed: () async{
                      cont = 0;
-                     int length = await MongoDatabase.getDataLength();
+                     int length = await MongoDatabase.getDataStudentLength();
                      if(length > limit_grid) {
                        setState(() {
                          cont -= 8;
@@ -92,7 +91,7 @@ class _UsersScreen extends State<UsersScreen> {
                     icon: Icons.arrow_forward,
                     onPressed: () async{
                         cont = 0;
-                        int length = await MongoDatabase.getDataLength();
+                        int length = await MongoDatabase.getDataStudentLength();
                         if(length > limit_grid) {
                           setState(() {
                             cont += 8;
@@ -120,7 +119,7 @@ class _UsersScreen extends State<UsersScreen> {
     Size size = MediaQuery.of(context).size;
     return Container(
       child: FutureBuilder(
-        future: MongoDatabase.getData(),
+        future: MongoDatabase.getStudentData(),
         builder: (context, AsyncSnapshot snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(
