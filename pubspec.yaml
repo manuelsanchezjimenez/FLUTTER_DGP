@@ -88,6 +88,7 @@ flutter:
     - user.png
     - tick.png
     - assets/pasosprovisional/
+    - assets/feedback/
 
   fonts:
     - family: Escolar
