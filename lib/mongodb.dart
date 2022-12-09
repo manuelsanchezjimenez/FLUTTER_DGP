@@ -62,10 +62,22 @@ class MongoDatabase{
     return data;
   }
 
-  static Future<int> getMenuComandaLength()async{
+  static Future<int> getMenuComandaLength(String user_name)async{
     COLLECTION_NAME = "tarea";
     collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find(where.eq('alumno','Paola Sanchez Casabona').eq('type',2)).toList();
+    final data = await collection.find(where.eq('alumno',user_name).eq('type',2)).toList();
     return data.length.toInt();
   }
+  static Future<void> updateUserComment(var id, String msg)async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    collection.update(where.eq('_id',id), modify.set('feedbackAlum', msg));
+  }
+
+  static Future<void> updateActivityState(var id)async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    collection.update(where.eq('_id',id), modify.set('completado', true));
+  }
+
 }

@@ -1,5 +1,7 @@
+import 'package:mongo_dart/mongo_dart.dart';
+
 class ComandaMenuDbModel{
- // ObjectId id;
+  ObjectId id;
   String nombre;
   int type;
   String descripcion;
@@ -9,7 +11,7 @@ class ComandaMenuDbModel{
   late String feedbackProf;
 
   ComandaMenuDbModel({
-    //required this.id,
+    required this.id,
     required this.nombre,
     required this.type,
     required this.descripcion,
@@ -21,7 +23,7 @@ class ComandaMenuDbModel{
 
 
   factory ComandaMenuDbModel.fromJson(Map<String,dynamic> json) => ComandaMenuDbModel(
-      //id: json["_id"],
+      id: json["_id"],
       nombre: json["nombre"],
       type: json['type'],
       descripcion: json['descripcion'],
@@ -33,7 +35,7 @@ class ComandaMenuDbModel{
 
   Map<String,dynamic>toJson(Map<String,dynamic> json) =>
       {
-        //"_id": id,
+        "_id": id,
         "nombre": nombre,
         "type": type,
         "descripcion": descripcion,

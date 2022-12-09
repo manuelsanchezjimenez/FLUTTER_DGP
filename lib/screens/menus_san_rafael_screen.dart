@@ -24,6 +24,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
   late int cont;
   final int limit_list= 4;
   late int limit = limit_list;
+  //bool _flag = true;
 
   void initState(){
     super.initState();
@@ -66,6 +67,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
   @override
   Widget build(BuildContext context) {
     Size size =  MediaQuery.of(context).size;
+
     return Scaffold(
         backgroundColor: kPrimaryWhite,
         appBar: buildAppBar(),
@@ -154,15 +156,17 @@ class _MenuComedor extends State<MenuComedorScreen> {
                      Container(
                        width: size.width*0.2,
                        height: size.height*0.08,
-                       child: FloatingActionButton(
-                         onPressed: (){},
+                       child: ElevatedButton(
+                         onPressed: ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado ? null : ()=> _showDialog(context),//{
+                           /*if(!(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado)){
+                             _showDialog(context);
+                           }*/
+
                          child: Text("Enviar",
                            style: TextStyle(fontFamily: 'Escolar', fontSize: 30, fontWeight: FontWeight.bold),
                          ),
-                         backgroundColor:Colors.green,
-                         shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.all(Radius.circular(15.0),
-                             )
+                         style: ElevatedButton.styleFrom(
+                           backgroundColor: !(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado) ? Colors.green : Colors.grey,
                          ),
                        ),
                      ),
@@ -179,18 +183,30 @@ class _MenuComedor extends State<MenuComedorScreen> {
                              //labelShadow: BoxShadow(color: kPrimaryColor, blurRadius: 20) ,
                              label: '¡Hecho!',
                              labelStyle: TextStyle(fontFamily: 'Escolar', fontSize: 20, fontWeight: FontWeight.bold),
+                             onTap: (){
+                                String msg = '¡Hecho!';
+                                MongoDatabase.updateUserComment(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).id,msg);
+                             }
                            ),
                            SpeedDialChild(
                              child:Image.asset("assets/necesito_ayuda.png"),
                              backgroundColor: kPrimaryLightColor,
                              label: '¡Necesito ayuda!',
                              labelStyle: TextStyle(fontFamily: 'Escolar', fontSize: 20, fontWeight: FontWeight.bold),
+                               onTap: (){
+                                 String msg = '¡Necesito ayuda!';
+                                 MongoDatabase.updateUserComment(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).id,msg);
+                               }
                            ),
                            SpeedDialChild(
                              child:Image.asset("assets/no_se.png"),
                              backgroundColor: kPrimaryLightColor,
                              label: 'No sé hacerlo',
                              labelStyle: TextStyle(fontFamily: 'Escolar', fontSize: 20, fontWeight: FontWeight.bold),
+                               onTap: (){
+                                 String msg = 'No sé hacerlo';
+                                 MongoDatabase.updateUserComment(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).id,msg);
+                               }
                            )
                          ],
                        ),
@@ -305,5 +321,63 @@ class _MenuComedor extends State<MenuComedorScreen> {
         )
       )
     );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Enviar tarea',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  //color: kPrimaryWhite,
+                  fontFamily: 'Escolar'
+              ),
+            ),
+            content: Text('¿Estás seguro de enviar la tarea?',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  //color: kPrimaryWhite,
+                  fontFamily: 'Escolar'
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'NO',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      fontFamily: 'Escolar'
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {});
+                  if(!(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado)){
+                    MongoDatabase.updateActivityState(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).id);
+                  }
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'SI',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Escolar'
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 }
