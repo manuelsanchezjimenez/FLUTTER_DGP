@@ -54,4 +54,18 @@ class MongoDatabase{
     final data = await getActivityData();
     return data.length.toInt();
   }
+
+  static Future<List<Map<String,dynamic>>> getQueryMenuData(String user_name) async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    final data = await collection.find(where.eq('alumno',user_name).eq('type',2)).toList();
+    return data;
+  }
+
+  static Future<int> getMenuComandaLength()async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    final data = await collection.find(where.eq('alumno','Paola Sanchez Casabona').eq('type',2)).toList();
+    return data.length.toInt();
+  }
 }

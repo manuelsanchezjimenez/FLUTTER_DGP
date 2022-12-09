@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:app_dgp/components/round_button_picto.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
@@ -110,17 +109,19 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Container(
-            height: size.height*0.08,
             alignment: Alignment.center,
-            child: Text(
-            data,
-            style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-                fontFamily: 'Escolar'
-            ),
-          ),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                data,
+                style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,
+                    fontFamily: 'Escolar'
+                ),
+              ),
+            )
       )
     );
   }

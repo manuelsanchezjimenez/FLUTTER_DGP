@@ -146,7 +146,7 @@ class _ActivityScreen extends State<ActivityScreen> {
                                   tooltip: "Anterior"
                               ),
                               Container(
-                                height: size.width*0.4,
+                                height: size.width*0.5,
                                 width: size.width*0.7,
                                 decoration: BoxDecoration(
                                     color: kPrimaryLightColor,
@@ -159,22 +159,30 @@ class _ActivityScreen extends State<ActivityScreen> {
                                 child: Column(
                                   children: [
                                     Container(
-                                      height: size.height*0.08,
+                                      height: size.height*0.15,
+                                      //color: Colors.pink,
                                       alignment: Alignment.center,
-                                      child: widget.descripcion == '' ? new Text("No hay pasos definidos") : new Text(
-                                          'Paso '+ splitted[cont].toString(),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 20),
+                                        child: widget.descripcion == '' ? new Text("No hay pasos definidos") : new Text(
+                                          'Paso '+(cont+1).toString()+ ': '+ splitted[cont].toString(),
                                           style: TextStyle(
                                               fontSize: 35,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'Escolar'
                                           ),
-                                      ),
+                                        ),
+                                      )
                                     ),
-                                    Container(
-                                      height: size.height*0.5,
-                                      child: ActivityImageDbModel.fromJson(widget.dataImage[0]).imagen == ' ' ?
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        height: size.height*0.43,
+                                        //color: Colors.green,
+                                        child: ActivityImageDbModel.fromJson(widget.dataImage[0]).imagen == ' ' ?
                                         new Center(child: new Text("No hay imágenes", style: TextStyle(fontSize: 20)),) :
-                                      Image.asset('assets/pasosprovisional/'+ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen),
+                                        Image.asset('assets/pasosprovisional/'+ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen),
+                                      ),
                                     )
                                   ],
                                 )
@@ -251,6 +259,4 @@ class _ActivityScreen extends State<ActivityScreen> {
         )
     );
   }
-  
- 
 }

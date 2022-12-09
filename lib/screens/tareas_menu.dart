@@ -2,15 +2,18 @@ import 'dart:ui';
 import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
+import 'package:app_dgp/screens/feedback_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_calendar_week/flutter_calendar_week.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../models/comanda_menu_model.dart';
 import '../mongodb.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../tareas.dart';
+import 'menus_san_rafael_screen.dart';
 
 class TareasMenuScreen extends StatefulWidget {
   UserDbModel user;
@@ -242,7 +245,21 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
+                        onTap: () async{
+                          var menu_comanda = await MongoDatabase.getQueryMenuData(widget.user.nombre);
+                          if(ComandaMenuDbModel.fromJson(menu_comanda[0]).feedbackProf.isEmpty){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MenuComedorScreen(menu_comanda: menu_comanda)),
+                            );
+                          }else{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => FeedbackScreen(menu_comanda: menu_comanda)),
+                            );
+                          }
+
+                        },
                         title: Text(
                           '${value[index]}',
                           style: TextStyle(

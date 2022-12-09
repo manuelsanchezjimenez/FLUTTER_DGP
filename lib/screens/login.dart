@@ -1,4 +1,3 @@
-import 'package:app_dgp/components/round_button_picto.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:flutter/material.dart';
 import '../components/round_button.dart';

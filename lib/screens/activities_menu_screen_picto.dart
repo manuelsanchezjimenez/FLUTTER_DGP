@@ -24,9 +24,9 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
     "https://www.youtube.com/watch?v=-_2vPIB6Ofc&list=PLBal9AttAE0twHdBKuZzz2NnBDIn8uDLF&index=4"
   ];
   List<String> pictos = [
-    'assets/atar_zapatillas.png',
-    'assets/sentimientos.png',
-    'assets/lavar_manos.png',
+    //'assets/atar_zapatillas.png',
+    //'assets/sentimientos.png',
+    //'assets/lavar_manos.png',
   ];
 
   AppBar buildAppBar(){

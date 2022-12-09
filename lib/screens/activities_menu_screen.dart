@@ -20,12 +20,6 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
   late int cont;
   final int limit_list= 3;
   late int limit = limit_list;
-  /*List<String> lista_acciones= ["Atarse los cordones", "Aprende las emociones", "Lavarse las manos"];*/
-  /*List<String> links = [
-    "https://www.youtube.com/watch?v=Ma05YV2XLc8",
-    "https://www.youtube.com/watch?v=qBZSlGo4N1k&t=44s",
-    "https://www.youtube.com/watch?v=-_2vPIB6Ofc&list=PLBal9AttAE0twHdBKuZzz2NnBDIn8uDLF&index=4"
-  ];*/
 
   void initState(){
     setState(() {
@@ -196,7 +190,7 @@ class _ActivitiesMenuScreen extends State<ActivitiesMenuScreen> {
               ),
               onPressed: () async {
                 var actImgdata = await MongoDatabase.getQueryActivityData("${data.nombre}");
-                var json;
+                //var json;
                 if(actImgdata.isEmpty){
                   actImgdata = [
                     {
