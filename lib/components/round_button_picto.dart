@@ -48,7 +48,7 @@ class RoundButtonPicto extends StatelessWidget{
                     ),
                   ),
                   Transform.scale(
-                     scale: 1.2,
+                     scale: 1,
                      child: picto,
                    )
               ]

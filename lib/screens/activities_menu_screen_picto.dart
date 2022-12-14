@@ -1,53 +1,53 @@
 import 'dart:ui';
 import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
+import 'package:app_dgp/models/ActivityDbModel.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:app_dgp/screens/activitiy_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../models/ActivityImageDbModel.dart';
 import '../mongodb.dart';
+import 'activitiy_picto_screen.dart';
 
-class ActivitiesMenuScreenPicto extends StatefulWidget{
-  ActivitiesMenuScreenPicto();
+class ActivitiesPictoMenuScreen extends StatefulWidget{
+  ActivitiesPictoMenuScreen();
   @override
-  _ActivitiesMenuScreenPicto createState() => _ActivitiesMenuScreenPicto();
+  _ActivitiesPictoMenu createState() => _ActivitiesPictoMenu();
 }
 
-class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
-  int cont = 0;
+class _ActivitiesPictoMenu extends State<ActivitiesPictoMenuScreen> {
+  late int cont;
   final int limit_list= 3;
-  List<String> lista_acciones= ["ATARSE LOS CORDONES", "APRENDE LAS EMOCIONES", "LAVARSE LAS MANOS"];
-  List<String> links = [
-    "https://www.youtube.com/watch?v=Ma05YV2XLc8",
-    "https://www.youtube.com/watch?v=qBZSlGo4N1k&t=44s",
-    "https://www.youtube.com/watch?v=-_2vPIB6Ofc&list=PLBal9AttAE0twHdBKuZzz2NnBDIn8uDLF&index=4"
-  ];
-  List<String> pictos = [
-    //'assets/atar_zapatillas.png',
-    //'assets/sentimientos.png',
-    //'assets/lavar_manos.png',
-  ];
+  late int limit = limit_list;
 
+  void initState(){
+    setState(() {
+      cont=0;
+    });
+    //await MongoDatabase.getActivityData();
+  }
   AppBar buildAppBar(){
     return AppBar(
       backgroundColor: kPrimaryColor,
       elevation: 0,
       leading: Transform.scale(
-        scale: 2.5,
-        child: IconButton(
+          scale: 2.5,
+          child: IconButton(
             icon: Icon(Icons.arrow_back),
-          onPressed: () {
+            onPressed: () {
               Navigator.pop(context);
-          },
-        )
+            },
+          )
       ),
       title: Text(
-        "ACTIVIDADES",
-        style: GoogleFonts.lexend(
-          fontSize: 30,
-          fontWeight: FontWeight.normal,
-          color: kPrimaryWhite,
+        "Actividades",
+        style: TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryWhite,
+            fontFamily: 'Escolar'
         ),
       ),
       centerTitle: true,
@@ -64,44 +64,54 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
           child:Column(
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical:size.height*0.02),
-                child: Container(
-                  width: size.width*0.9,
-                  child: buildList(kPrimaryColor,cont),
-                ),
+              Container(
+                width: size.width*0.9,
+                height: size.height*0.81,
+                child: buildList(kPrimaryColor,cont),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Semantics(
-                    focused: true,
-                    child: ArrowButton(
-                        heroTag: "btn_back",
-                        icon: Icons.arrow_back,
-                        onPressed: () async{
-                          cont = 0;
-                          //int length = await MongoDatabase.getDataLength();
-                          /* if(length > limit_list) {
+                  ArrowButton(
+                      heroTag: "btn_back",
+                      icon: Icons.arrow_back,
+                      onPressed: () async{
+                        cont = 0;
+                        int length = await MongoDatabase.getDataActivityLength();
+                        if(length > limit_list) {
                           setState(() {
-                            cont -= 8;
-                          });*/
-                          //}
-                        },
-                        tooltip: "Anterior"
-                    ),
+                            cont -= 3;
+                            length += 3;
+                            if(cont == -3){
+                              cont = 0;
+                            }
+                          });
+                          if(length > limit_list){
+                            setState(() {
+                              limit=limit_list;
+                            });
+                          }
+                        }
+                      },
+                      tooltip: "Anterior"
                   ),
                   ArrowButton(
                       heroTag: "btn_forward",
                       icon: Icons.arrow_forward,
                       onPressed: () async{
                         cont = 0;
-                        /*int length = await MongoDatabase.getDataLength();
+                        int length = await MongoDatabase.getDataActivityLength();
                         if(length > limit_list) {
                           setState(() {
-                            cont += 8;
-                          });*/
-                        //}
+                            cont += 3;
+                            length-= 3;
+                          });
+                          if(length < limit_list){
+                            setState(() {
+                              limit=length;
+                            });
+                          }
+                        }
                       },
                       tooltip: "Siguiente"
                   )
@@ -114,19 +124,47 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
   }
 
   Widget buildList(Color color, int cont){
-    int limit = limit_list;
+    //limit = limit_grid;
+    //limit = limit_list;
     Size size = MediaQuery.of(context).size;
-
-    return ListView.builder(
-        shrinkWrap: true,
-          itemCount: limit_list,
-          itemBuilder: (context, index){
-            return displayData(color, index);
-          }
+    return Container(
+        child: FutureBuilder(
+          future: MongoDatabase.getActivityData(),
+          builder: (context, AsyncSnapshot snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }else{
+              if(snapshot.hasData){
+                if(snapshot.data.length < limit){
+                  limit = snapshot.data.length;
+                  cont = 0;
+                }
+                return Padding(padding: EdgeInsets.only(top: 25),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:limit,
+                        itemBuilder: (context, index){
+                          return displayData(
+                              ActivityDbModel.fromJson(snapshot.data[index+cont]),
+                              color
+                          );
+                        }
+                    )
+                );
+              }else{
+                return Center(
+                  child: Text("Data not found"),
+                );
+              }
+            }
+          },
+        )
     );
   }
 
-  Widget displayData(Color color, int index){
+  Widget displayData(ActivityDbModel data, Color color){
     Size size = MediaQuery.of(context).size;
 
     return Padding(
@@ -141,7 +179,7 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
-                //fixedSize: const Size(200, 80),
+                fixedSize: const Size(200, 80),
                 primary: color,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
@@ -151,29 +189,31 @@ class _ActivitiesMenuScreenPicto extends State<ActivitiesMenuScreenPicto> {
                   ),
                 ),
               ),
-              onPressed: () {
-                /*Navigator.push(
+              onPressed: () async {
+                var actImgdata = await MongoDatabase.getQueryActivityData("${data.nombre}");
+                //var json;
+                if(actImgdata.isEmpty){
+                  actImgdata = [
+                    {
+                      'actividad': ' ',
+                      'orden': 0,
+                      'imagen': ' '
+                    }
+                  ];
+                }
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ActivityScreen(name: lista_acciones[index], link: links[index],)),
-                );*/
+                  MaterialPageRoute(builder: (context) => ActivityPictoScreen(name: "${data.nombre}", link: "${data.enlaceVideo}", descripcion: "${data.descripcion}", dataImage: actImgdata,)),
+                );
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                      lista_acciones[index],
-                      style: GoogleFonts.lexend(
-                        fontSize: 30,
-                        fontWeight: FontWeight.normal,
-                        color: kPrimaryWhite,
-                      )
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Image.asset(pictos[index])
-                  )
-                ],
+              child: Text(
+                "${data.nombre}",
+                style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryWhite,
+                    fontFamily: 'Escolar'
+                ),
               )
           ),
         )

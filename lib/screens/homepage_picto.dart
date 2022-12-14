@@ -51,6 +51,7 @@ import 'package:app_dgp/screens/activities_menu_screen.dart';
 import 'package:app_dgp/screens/login.dart';
 import 'package:app_dgp/mongodb.dart';
 import 'package:app_dgp/screens/profile_screen.dart';
+import 'package:app_dgp/screens/tareas_menu.dart';
 import 'package:app_dgp/screens/users_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePagePicto> {
                                 child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
-                                    child: Image.asset('assets/default.jpg'))),
+                                    child: Image.asset(widget.user.img))),
                           ),
                         ),
                         Padding(
@@ -263,7 +264,10 @@ class _HomePageState extends State<HomePagePicto> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user)));
+                                },
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -309,7 +313,7 @@ class _HomePageState extends State<HomePagePicto> {
                                 ),
                                 onPressed: () {
                                   Navigator.push(
-                                      context, MaterialPageRoute(builder: (_) => ActivitiesMenuScreenPicto()));
+                                      context, MaterialPageRoute(builder: (_) => ActivitiesPictoMenuScreen()));
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
