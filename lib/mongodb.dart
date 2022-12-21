@@ -80,4 +80,23 @@ class MongoDatabase{
     collection.update(where.eq('_id',id), modify.set('completado', true));
   }
 
+  static Future<List<Map<String,dynamic>>> getTaskData() async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    final data = await collection.find().toList();
+    return data;
+  }
+
+  static Future<List<Map<String,dynamic>>> getQueryTaskData(String alumno) async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    final data = await collection.find(where.eq('alumno',alumno)).toList();
+    return data;
+  }
+
+  static Future<int> getDataTaskLength()async{
+    final data = await getTaskData();
+    return data.length.toInt();
+  }
+
 }
