@@ -8,7 +8,7 @@ class UserDbModel{
   int tipo;
   String correo;
   String dni;
-  int clase;
+  String clase;
   late String profesor;
   late String contra;
   late String img;
@@ -53,9 +53,9 @@ class UserDbModel{
 
   void clear(){
     id = ObjectId();
-    this.contra = this.dni = this.correo = '';
+    this.contra= this.clase = this.dni = this.correo = '';
     this.nombre = this.usuario = this.profesor =   '';
-    this.tipo = this.clase = 0;
+    this.tipo = 0;
 
   }
 }
