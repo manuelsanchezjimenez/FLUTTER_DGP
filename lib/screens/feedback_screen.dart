@@ -20,7 +20,13 @@ class _Feedback extends State<FeedbackScreen> {
   void initState(){
     super.initState();
     splitted = ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf.split(',');
-    print(splitted[0]);
+    for (var split in splitted){
+      print("Valor: " + split);
+    }
+    /*print(splitted[0]);
+    print(splitted[1]);
+    print(splitted[2]);*/
+
   }
 
   AppBar buildAppBar(){
@@ -72,7 +78,7 @@ class _Feedback extends State<FeedbackScreen> {
                         //color: kPrimaryLightColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))
                     ),
-                    child: Text( "Profesor: Nombre , Apellidos ",
+                    child: Text( "Profesor: " + splitted[2] ,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 35,
@@ -116,7 +122,7 @@ class _Feedback extends State<FeedbackScreen> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(size.width*0.02),
-                              child: Text( ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf,
+                              child: Text( splitted[0] + "\n" + splitted[1],//ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 28,

@@ -1,7 +1,10 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
+import 'dart:convert';
 
+import '../mongodb.dart';
 import 'dart:collection';
+import '../models/TaskDbModel.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,6 +17,30 @@ class Event {
   @override
   String toString() => title;
 }
+
+Future<List<Map<String,dynamic>>> tareas = MongoDatabase.getTaskData();
+
+
+  void  CogerTareas() async{
+    var listamap = await tareas;
+    for(var tarea in listamap){
+      tarea.forEach((element,dyn){
+        print("Henlo");
+        print(element);
+      });
+    }
+  }
+
+
+var variables = tareas.toString();
+//print(variables);
+//     if(ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen.isNotEmpty){
+/* void eventos(){
+   for (var i in tareas){
+
+   }
+
+ }*/
 
 
 /// Example events.
@@ -35,12 +62,16 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
     ],
   });
 
+
 int getHashCode(DateTime key) {
+  print(variables);
+
   return key.day * 1000000 + key.month * 10000 + key.year;
 }
 
 /// Returns a list of [DateTime] objects from [first] to [last], inclusive.
 List<DateTime> daysInRange(DateTime first, DateTime last) {
+  CogerTareas();
   final dayCount = last.difference(first).inDays + 1;
   return List.generate(
     dayCount,
