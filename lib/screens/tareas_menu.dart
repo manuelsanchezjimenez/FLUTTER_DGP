@@ -286,15 +286,6 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
                           var menu_comanda = await MongoDatabase.getQueryMenuData(widget.user.nombre);
                           var actImgdata = await MongoDatabase.getQueryActivityData(ComandaMenuDbModel.fromJson(widget.model[index]).nombre);
                           //var json;
-                          if(actImgdata.isEmpty){
-                            actImgdata = [
-                              {
-                                'actividad': ' ',
-                                'orden': 0,
-                                'imagen': ' '
-                              }
-                            ];
-                          }
                           if(ComandaMenuDbModel.fromJson(widget.model[index]).nombre == "Comanda menú"){
                             print(ComandaMenuDbModel.fromJson(menu_comanda[0]).nombre);
                             if(ComandaMenuDbModel.fromJson(menu_comanda[0]).feedbackProf.isEmpty){

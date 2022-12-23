@@ -62,7 +62,7 @@ class LoginState extends State<Login> {
                       width: 600, // Tamaño de la caja
                       child: TextFormField(
                         controller:
-                            TextEditingController(text: widget.user.correo),
+                            TextEditingController(text: widget.user.nombre),
                         onChanged: (value) {
                           // widget.user.nombre = value;
                         },

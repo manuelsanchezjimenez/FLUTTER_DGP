@@ -11,6 +11,7 @@ import 'package:app_dgp/mongodb.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
+
 class Event {
 
   final String title;
@@ -19,33 +20,6 @@ class Event {
   @override
   String toString() => title;
 }
-
-Future<List<Map<String,dynamic>>> tareas = MongoDatabase.getTaskData();
-
-
-  void  CogerTareas() async{
-    var listamap = await tareas;
-    for(var tarea in listamap){
-      tarea.forEach((element,dyn){
-        print("Henlo");
-        print(element);
-      });
-    }
-  }
-
-
-var variables = tareas.toString();
-//print(variables);
-//     if(ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen.isNotEmpty){
-/* void eventos(){
-   for (var i in tareas){
-
-   }
-
- }*/
-
-
-/// Example events.
 ///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
 final kEvents = LinkedHashMap<DateTime, List<Event>>(
@@ -66,14 +40,11 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
 
 
 int getHashCode(DateTime key) {
-  print(variables);
-
   return key.day * 1000000 + key.month * 10000 + key.year;
 }
 
 /// Returns a list of [DateTime] objects from [first] to [last], inclusive.
 List<DateTime> daysInRange(DateTime first, DateTime last) {
-  CogerTareas();
   final dayCount = last.difference(first).inDays + 1;
   return List.generate(
     dayCount,

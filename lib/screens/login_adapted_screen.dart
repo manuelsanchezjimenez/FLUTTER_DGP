@@ -326,8 +326,13 @@ class _LoginAdaptedState extends State<LoginAdapted> {
                                         context, MaterialPageRoute(
                                         builder: (_) => HomePagePicto(user: widget.user)));
                                   }else{
+                                    for(var i=0; i<6; i++){
+                                      colores[i] = false;
+                                    }
+                                    //colores[0] = false;
                                     msgSnack("Email o contraseña incorrectos");
                                     resetSecuencia();
+                                    setState(() {});
                                   }
 
                               },
