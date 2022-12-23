@@ -9,6 +9,8 @@ class ComandaMenuDbModel{
   bool completado;
   late String feedbackAlum;
   late String feedbackProf;
+  late DateTime fechaInicio;
+  late DateTime fechaFin;
 
   ComandaMenuDbModel({
     required this.id,
@@ -18,7 +20,9 @@ class ComandaMenuDbModel{
     required this.alumno,
     required this.completado,
     required this.feedbackAlum,
-    required this.feedbackProf
+    required this.feedbackProf,
+    required this.fechaInicio,
+    //required this.fechaFin
   });
 
 
@@ -30,7 +34,9 @@ class ComandaMenuDbModel{
       alumno: json['alumno'],
       completado: json['completado'],
       feedbackAlum: json['feedbackAlum'],
-      feedbackProf: json['feedbackProf']
+      feedbackProf: json['feedbackProf'],
+      fechaInicio: json['fechaInicio'],
+      //fechaFin: json['fechaFin']
   );
 
   Map<String,dynamic>toJson(Map<String,dynamic> json) =>
@@ -42,7 +48,9 @@ class ComandaMenuDbModel{
         "alumno": alumno,
         "completado": completado,
         "feedbackAlum": feedbackAlum,
-        "feedbackProf":feedbackProf
+        "feedbackProf":feedbackProf,
+        "fechaInicio":fechaInicio.toIso8601String(),
+        //"fechaFin":fechaFin
         //"profesor": profesor
       };
 

@@ -20,7 +20,6 @@ class _Feedback extends State<FeedbackScreen> {
   void initState(){
     super.initState();
     splitted = ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf.split(',');
-    print(splitted[0]);
   }
 
   AppBar buildAppBar(){
@@ -72,16 +71,18 @@ class _Feedback extends State<FeedbackScreen> {
                         //color: kPrimaryLightColor,
                         borderRadius: BorderRadius.all(Radius.circular(20))
                     ),
-                    child: Text( "Profesor: Nombre , Apellidos ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35,
-                          fontFamily: 'Escolar'
+                    child:Container(
+                        width: size.width*0.8,
+                        alignment: Alignment.center,
+                          child: Text( "Profesor:"+splitted.last,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 35,
+                                fontFamily: 'Escolar'
+                            ),
+                          ),
+                        )
                       ),
-                    ),
-                    //child: Text("Profesor"+ ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf),
-                  ),
-
                   Padding(
                     padding: EdgeInsets.only(top: size.height*0.02),
                     child: Center(
@@ -100,7 +101,7 @@ class _Feedback extends State<FeedbackScreen> {
                                 color: kPrimaryLightColor,
                                 borderRadius: BorderRadius.all(Radius.circular(20))
                             ),
-                            child: Image.asset('assets/feedback/'+splitted[0].toLowerCase()+'.png'),
+                            child: splitted.first.toLowerCase() == "bien" ? Image.asset("assets/feedback/bien.png") : (splitted.first == "muy bien" ? Image.asset("assets/feedback/muybien.png") : Image.asset("assets/feedback/mejorar.png") ),
                           ),
                           Container(
                             width: size.width*0.6,

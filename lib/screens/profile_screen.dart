@@ -101,7 +101,6 @@ List<IconData> icons = [Icons.person, Icons.email, Icons.badge, Icons.school];
         )
     );
   }
-
   //Hacer responsive el container del nombre
 
   Widget buildTextFormField(String data){

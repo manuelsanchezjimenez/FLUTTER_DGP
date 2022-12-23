@@ -39,7 +39,7 @@ class MongoDatabase{
   static Future<List<Map<String,dynamic>>> getActivityData() async{
     COLLECTION_NAME = "actividad";
     collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find().toList();
+    final data = await collection.find(where.eq('type',1)).toList();
     return data;
   }
 
@@ -62,6 +62,13 @@ class MongoDatabase{
     return data;
   }
 
+  static Future<List<Map<String,dynamic>>> getQueryTarea(var id) async{
+    COLLECTION_NAME = "tarea";
+    collection = db.collection(COLLECTION_NAME);
+    final data = await collection.find(where.eq('alumnoID',id)).toList();
+    return data;
+  }
+
   static Future<int> getMenuComandaLength(String user_name)async{
     COLLECTION_NAME = "tarea";
     collection = db.collection(COLLECTION_NAME);
@@ -78,25 +85,6 @@ class MongoDatabase{
     COLLECTION_NAME = "tarea";
     collection = db.collection(COLLECTION_NAME);
     collection.update(where.eq('_id',id), modify.set('completado', true));
-  }
-
-  static Future<List<Map<String,dynamic>>> getTaskData() async{
-    COLLECTION_NAME = "tarea";
-    collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find().toList();
-    return data;
-  }
-
-  static Future<List<Map<String,dynamic>>> getQueryTaskData(String alumno) async{
-    COLLECTION_NAME = "tarea";
-    collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find(where.eq('alumno',alumno)).toList();
-    return data;
-  }
-
-  static Future<int> getDataTaskLength()async{
-    final data = await getTaskData();
-    return data.length.toInt();
   }
 
 }

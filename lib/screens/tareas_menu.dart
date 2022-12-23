@@ -1,6 +1,8 @@
+import 'dart:collection';
 import 'dart:ui';
 import 'package:app_dgp/components/arrow_button.dart';
 import 'package:app_dgp/constants.dart';
+import 'package:app_dgp/models/ActivityDbModel.dart';
 import 'package:app_dgp/models/UserDbModel.dart';
 import 'package:app_dgp/screens/feedback_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,9 +17,29 @@ import 'package:intl/date_symbol_data_local.dart';
 import '../tareas.dart';
 import 'menus_san_rafael_screen.dart';
 
+
+
+int getHashCode(DateTime key) {
+  return key.day * 1000000 + key.month * 10000 + key.year;
+}
+
+/// Returns a list of [DateTime] objects from [first] to [last], inclusive.
+List<DateTime> daysInRange(DateTime first, DateTime last) {
+  final dayCount = last.difference(first).inDays + 1;
+  return List.generate(
+    dayCount,
+        (index) => DateTime.utc(first.year, first.month, first.day + index),
+  );
+}
+
+final kToday = DateTime.now();
+final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+
 class TareasMenuScreen extends StatefulWidget {
   UserDbModel user;
-  TareasMenuScreen({required this.user});
+  final model;
+  TareasMenuScreen({required this.user, required this.model});
 
   @override
   _TareasMenuScreen createState() => _TareasMenuScreen();
@@ -26,8 +48,9 @@ class TareasMenuScreen extends StatefulWidget {
 class _TareasMenuScreen extends State<TareasMenuScreen> {
   final CalendarWeekController _controller = CalendarWeekController();
   late final ValueNotifier<List<Event>> _selectedEvents;
-
-  CalendarFormat _calendarFormat = CalendarFormat.week;
+  late final kEvents;
+  late int length;
+      CalendarFormat _calendarFormat = CalendarFormat.week;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
@@ -35,10 +58,24 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
+
+
   @override
   void initState() {
     super.initState();
+    final newMap = Map.fromIterable(List.generate(4, (index) => index),
+        key: (item) => DateTime.now(),
+        value: (item) => List.generate(
+            item % 5, (index) => Event(ComandaMenuDbModel.fromJson(widget.model[index]).nombre)))
+      ..addAll({
+      });
 
+    //print(newMap);
+    kEvents = LinkedHashMap<DateTime, List<Event>>(
+      equals: isSameDay,
+      hashCode: getHashCode,
+    )..addAll(newMap);
+    //print(kEvents[0]);
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
@@ -247,18 +284,31 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
                       child: ListTile(
                         onTap: () async{
                           var menu_comanda = await MongoDatabase.getQueryMenuData(widget.user.nombre);
-                          if(ComandaMenuDbModel.fromJson(menu_comanda[0]).feedbackProf.isEmpty){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => MenuComedorScreen(menu_comanda: menu_comanda)),
-                            );
-                          }else{
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => FeedbackScreen(menu_comanda: menu_comanda)),
-                            );
+                          var actImgdata = await MongoDatabase.getQueryActivityData(ComandaMenuDbModel.fromJson(widget.model[index]).nombre);
+                          //var json;
+                          if(actImgdata.isEmpty){
+                            actImgdata = [
+                              {
+                                'actividad': ' ',
+                                'orden': 0,
+                                'imagen': ' '
+                              }
+                            ];
                           }
-
+                          if(ComandaMenuDbModel.fromJson(widget.model[index]).nombre == "Comanda menú"){
+                            print(ComandaMenuDbModel.fromJson(menu_comanda[0]).nombre);
+                            if(ComandaMenuDbModel.fromJson(menu_comanda[0]).feedbackProf.isEmpty){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MenuComedorScreen(menu_comanda: menu_comanda, dataImage: actImgdata,)),
+                              );
+                            }else{
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FeedbackScreen(menu_comanda: menu_comanda)),
+                              );
+                            }
+                          }
                         },
                         title: Text(
                           '${value[index]}',

@@ -264,9 +264,10 @@ class _HomePageState extends State<HomePagePicto> {
                                     ),
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async{
+                                  var tareas = await MongoDatabase.getActivityData();
                                   Navigator.push(
-                                      context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user)));
+                                      context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user,model: tareas,)));
                                 },
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
