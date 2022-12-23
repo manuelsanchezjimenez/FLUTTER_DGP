@@ -92,6 +92,7 @@ flutter:
     - volver.png
     - assets/pasosprovisional/
     - assets/feedback/
+    - assets/menu/
 
   fonts:
     - family: Escolar

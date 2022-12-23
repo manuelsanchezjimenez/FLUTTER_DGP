@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:app_dgp/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../components/arrow_button.dart';
 import '../components/menus_san_rafael_button.dart';
+import '../models/ActivityImageDbModel.dart';
 import '../models/comanda_menu_model.dart';
 import '../models/menu_model.dart';
 import '../mongodb.dart';
@@ -12,7 +14,8 @@ import '../mongodb.dart';
 
 class MenuComedorScreen extends StatefulWidget{
   final menu_comanda;
-  MenuComedorScreen({required this.menu_comanda});
+  final dataImage;
+  MenuComedorScreen({required this.menu_comanda, required this.dataImage});
   @override
   _MenuComedor createState() => _MenuComedor();
 }
@@ -24,6 +27,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
   late int cont;
   final int limit_list= 4;
   late int limit = limit_list;
+  late int length;
   //bool _flag = true;
 
   void initState(){
@@ -36,6 +40,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
     }
     setState(() {
       cont = 0;
+      length = menu_model.length;
     });
   }
 
@@ -115,7 +120,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
                               itemCount: limit,
                               itemBuilder: (context, index) {
                                 //final pd = widget.cart.productsCart[index];
-                                return buildMenuTile(menu_model[index+cont]);
+                                return buildMenuTile(menu_model[index+cont], cont+index+1);
                               },
                             ),
                           ),
@@ -123,7 +128,10 @@ class _MenuComedor extends State<MenuComedorScreen> {
                               heroTag: "btn_forward",
                               icon: Icons.arrow_forward,
                               onPressed: () async{
-                                int length = menu_model.length;
+                                print(widget.dataImage[0].toString());
+                                if(cont == 0){
+                                  length = menu_model.length;
+                                }
                                 if(length > limit_list) {
                                   setState(() {
                                     cont += 4;
@@ -133,6 +141,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
                                     cont = menu_model.length-limit_list;
                                   }
                                   if(length < limit_list){
+                                    print(length);
                                     setState(() {
                                       limit=length;
                                     });
@@ -166,7 +175,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
                            style: TextStyle(fontFamily: 'Escolar', fontSize: 30, fontWeight: FontWeight.bold),
                          ),
                          style: ElevatedButton.styleFrom(
-                           backgroundColor: !(ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado) ? Colors.green : Colors.grey,
+                           backgroundColor: !ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).completado ? Colors.green : Colors.grey,
                          ),
                        ),
                      ),
@@ -220,7 +229,7 @@ class _MenuComedor extends State<MenuComedorScreen> {
     );
   }
 
-  Widget buildMenuTile(Menu menu_item) {
+  Widget buildMenuTile(Menu menu_item, int cont) {
     Size size =  MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
@@ -242,7 +251,9 @@ class _MenuComedor extends State<MenuComedorScreen> {
               Container(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.02),
-                  child: Image.asset("assets/pasosprovisional/comida.png"),
+                  child: ActivityImageDbModel.fromJson(widget.dataImage[0]).imagen == ' ' ?
+                  new Center(child: new Text("No hay imágenes", style: TextStyle(fontSize: 20)),) :
+                  Image.asset('assets/menu/'+ActivityImageDbModel.fromJson(widget.dataImage[cont]).imagen),
                 )
               ),
               Container(

@@ -120,7 +120,7 @@ class _ActivityScreen extends State<ActivityScreen> {
                         child: Container(
                           height: size.width*0.4,
                           width: size.width*0.8,
-                          child: widget.link == '' ? new Text("No hay video") : YoutubePlayer(controller: _youtubecontroller!)
+                          child: widget.link == '' ? Center(child: new Text("No hay video"),) : YoutubePlayer(controller: _youtubecontroller!)
                         ),
                       ),
                       Visibility(

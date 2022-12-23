@@ -117,7 +117,7 @@ class _Feedback extends State<FeedbackScreen> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(size.width*0.02),
-                              child: Text( splitted[0] + "\n" + splitted[1],//ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf,
+                              child: Text( ComandaMenuDbModel.fromJson(widget.menu_comanda[0]).feedbackProf,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 28,

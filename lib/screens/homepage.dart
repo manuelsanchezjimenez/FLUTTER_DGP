@@ -1,3 +1,4 @@
+import 'package:app_dgp/models/comanda_menu_model.dart';
 import 'package:app_dgp/screens/login.dart';
 import 'package:app_dgp/mongodb.dart';
 import 'package:app_dgp/screens/profile_screen.dart';
@@ -192,9 +193,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                              context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user)));
+                            onPressed: () async {
+                              var tareas = await MongoDatabase.getQueryTarea(widget.user.id.toHexString());
+                              //print(ComandaMenuDbModel.fromJson(tareas[0]).fechaInicio);
+                             Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user, model: tareas,)));
                             },
                             child: Text(
                               'Mis tareas',

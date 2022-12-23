@@ -6,13 +6,15 @@ import '../mongodb.dart';
 import 'dart:collection';
 import '../models/TaskDbModel.dart';
 
+import 'package:app_dgp/models/ActivityDbModel.dart';
+import 'package:app_dgp/mongodb.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
 class Event {
-  final String title;
 
-  const Event(this.title);
+  final String title;
+  Event(this.title);
 
   @override
   String toString() => title;
