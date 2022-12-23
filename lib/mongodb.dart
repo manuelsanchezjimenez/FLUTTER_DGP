@@ -65,14 +65,14 @@ class MongoDatabase{
   static Future<List<Map<String,dynamic>>> getQueryTarea(var id) async{
     COLLECTION_NAME = "tarea";
     collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find(where.eq('alumnoID',id)).toList();
+    final data = await collection.find(where.eq('alumno',id)).toList();
     return data;
   }
 
   static Future<int> getMenuComandaLength(String user_name)async{
     COLLECTION_NAME = "tarea";
     collection = db.collection(COLLECTION_NAME);
-    final data = await collection.find(where.eq('alumno',user_name).eq('type',2)).toList();
+    final data = await collection.find(where.eq('alumno',user_name)).toList();
     return data.length.toInt();
   }
   static Future<void> updateUserComment(var id, String msg)async{

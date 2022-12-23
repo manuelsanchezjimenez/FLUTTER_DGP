@@ -36,13 +36,16 @@ final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
+var tam;
+
 class TareasMenuScreen extends StatefulWidget {
   UserDbModel user;
   final model;
-  TareasMenuScreen({required this.user, required this.model});
+  final tamanio;
 
+  TareasMenuScreen({required this.user, required this.model, required this.tamanio});
   @override
-  _TareasMenuScreen createState() => _TareasMenuScreen();
+  _TareasMenuScreen createState() => _TareasMenuScreen(length: tamanio);
 }
 
 class _TareasMenuScreen extends State<TareasMenuScreen> {
@@ -50,6 +53,7 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   late final kEvents;
   late int length;
+  _TareasMenuScreen({required this.length});
       CalendarFormat _calendarFormat = CalendarFormat.week;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
@@ -57,18 +61,19 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-
+  var indice = 0;
 
 
   @override
   void initState() {
     super.initState();
-    final newMap = Map.fromIterable(List.generate(4, (index) => index),
+    final newMap = Map.fromIterable(List.generate(length+1, (index) => index),
         key: (item) => DateTime.now(),
         value: (item) => List.generate(
-            item % 5, (index) => Event(ComandaMenuDbModel.fromJson(widget.model[index]).nombre)))
+            item, (index) => Event(ComandaMenuDbModel.fromJson(widget.model[index]).nombre)))
       ..addAll({
       });
+    print("Tamanio:  " + length.toString());
 
     //print(newMap);
     kEvents = LinkedHashMap<DateTime, List<Event>>(
@@ -289,11 +294,13 @@ class _TareasMenuScreen extends State<TareasMenuScreen> {
                           if(ComandaMenuDbModel.fromJson(widget.model[index]).nombre == "Comanda menú"){
                             print(ComandaMenuDbModel.fromJson(menu_comanda[0]).nombre);
                             if(ComandaMenuDbModel.fromJson(menu_comanda[0]).feedbackProf.isEmpty){
+                              print("No hay feedback");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => MenuComedorScreen(menu_comanda: menu_comanda, dataImage: actImgdata,)),
                               );
                             }else{
+                              print("Hay feedback");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => FeedbackScreen(menu_comanda: menu_comanda)),

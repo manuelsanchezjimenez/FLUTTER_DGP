@@ -265,9 +265,11 @@ class _HomePageState extends State<HomePagePicto> {
                                   ),
                                 ),
                                 onPressed: () async{
-                                  var tareas = await MongoDatabase.getActivityData();
+                                  var tareas = await MongoDatabase.getQueryTarea(widget.user.nombre);
+                                  var tamanio = await MongoDatabase.getMenuComandaLength(widget.user.nombre);
+
                                   Navigator.push(
-                                      context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user,model: tareas,)));
+                                      context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user,model: tareas, tamanio: tamanio,)));
                                 },
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.end,

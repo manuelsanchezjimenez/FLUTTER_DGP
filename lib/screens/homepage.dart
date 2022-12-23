@@ -194,10 +194,11 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             onPressed: () async {
-                              var tareas = await MongoDatabase.getQueryTarea(widget.user.id.toHexString());
+                              var tareas = await MongoDatabase.getQueryTarea(widget.user.nombre);//id.toHexString());
+                              var tamanio = await MongoDatabase.getMenuComandaLength(widget.user.nombre);
                               //print(ComandaMenuDbModel.fromJson(tareas[0]).fechaInicio);
                              Navigator.push(
-                              context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user, model: tareas,)));
+                              context, MaterialPageRoute(builder: (_) => TareasMenuScreen(user:widget.user, model: tareas, tamanio: tamanio,)));
                             },
                             child: Text(
                               'Mis tareas',
